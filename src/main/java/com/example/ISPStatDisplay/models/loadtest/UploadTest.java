@@ -2,7 +2,7 @@ package com.example.ISPStatDisplay.models.loadtest;
 
 import com.example.ISPStatDisplay.models.ping.UploadPing;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class UploadTest extends LoadTest{

@@ -4,7 +4,7 @@ import com.example.ISPStatDisplay.models.loadtest.DownloadTest;
 import com.example.ISPStatDisplay.models.loadtest.UploadTest;
 import com.example.ISPStatDisplay.models.ping.IdlePing;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity

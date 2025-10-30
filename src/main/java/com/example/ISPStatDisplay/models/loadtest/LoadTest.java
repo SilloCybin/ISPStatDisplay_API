@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.models.loadtest;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class LoadTest {
