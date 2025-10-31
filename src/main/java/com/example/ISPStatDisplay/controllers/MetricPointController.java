@@ -36,28 +36,19 @@ public class MetricPointController {
     @GetMapping("/fromStartDate/{metric}")
     public ResponseEntity<List<MetricPointDTO>> getMetricFromStartDateToNow(
             @PathVariable String metric,
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate) {
 
-        LocalDateTime startDateTime = startDate.atStartOfDay();
-        Date convertedStartDate = Date.from(startDateTime.atZone(ZoneId.of("Europe/Lisbon")).toInstant());
-
-        List<MetricPointDTO> data = this.metricPointservice.getMetricFromStartDateToNow(metric, convertedStartDate);
+        List<MetricPointDTO> data = this.metricPointservice.getMetricFromStartDateToNow(metric, startDate);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @GetMapping("/dateRange/{metric}")
     public ResponseEntity<List<MetricPointDTO>> getMetricOnDateRange(
             @PathVariable String metric,
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate) {
 
-        LocalDateTime startDateTime = startDate.atStartOfDay();
-        Date convertedStartDate = Date.from(startDateTime.atZone(ZoneId.of("Europe/Lisbon")).toInstant());
-
-        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
-        Date convertedEndDate = Date.from(endDateTime.atZone(ZoneId.of("Europe/Lisbon")).toInstant());
-
-        List<MetricPointDTO> data = this.metricPointservice.getMetricOnDateRange(metric, convertedStartDate, convertedEndDate);
+        List<MetricPointDTO> data = this.metricPointservice.getMetricOnDateRange(metric, startDate, endDate);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }
