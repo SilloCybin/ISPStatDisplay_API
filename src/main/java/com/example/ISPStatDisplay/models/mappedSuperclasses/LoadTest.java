@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.loadtest;
+package com.example.ISPStatDisplay.models.mappedSuperclasses;
 
 import jakarta.persistence.MappedSuperclass;
 

@@ -1,11 +1,11 @@
-package com.example.ISPStatDisplay.models.loadtest;
+package com.example.ISPStatDisplay.models.entities;
 
-import com.example.ISPStatDisplay.models.ping.UploadPing;
+import com.example.ISPStatDisplay.models.mappedSuperclasses.LoadTest;
 
 import jakarta.persistence.*;
 
 @Entity
-public class UploadTest extends LoadTest{
+public class UploadTest extends LoadTest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

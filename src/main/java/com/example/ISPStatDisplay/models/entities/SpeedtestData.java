@@ -1,8 +1,4 @@
-package com.example.ISPStatDisplay.models;
-
-import com.example.ISPStatDisplay.models.loadtest.DownloadTest;
-import com.example.ISPStatDisplay.models.loadtest.UploadTest;
-import com.example.ISPStatDisplay.models.ping.IdlePing;
+package com.example.ISPStatDisplay.models.entities;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;

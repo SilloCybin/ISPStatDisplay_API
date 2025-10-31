@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models;
+package com.example.ISPStatDisplay.models.entities;
 
 import java.util.Date;
 
@@ -28,7 +28,4 @@ public class MetricPoint {
         this.value = value;
     }
 
-    /*public void setValue(Long value) {
-        this.value = value;
-    }*/
 }

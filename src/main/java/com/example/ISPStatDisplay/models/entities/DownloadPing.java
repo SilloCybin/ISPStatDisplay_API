@@ -1,19 +1,20 @@
-package com.example.ISPStatDisplay.models.ping;
+package com.example.ISPStatDisplay.models.entities;
 
+import com.example.ISPStatDisplay.models.mappedSuperclasses.Ping;
 import jakarta.persistence.*;
 
 @Entity
-public class IdlePing extends Ping{
+public class DownloadPing extends Ping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    public IdlePing() {
+    public DownloadPing() {
         super();
     }
 
-    public IdlePing(Long Id, Float jitter, Float latency, Float low, Float high) {
+    public DownloadPing(Long Id, Float jitter, Float latency, Float low, Float high) {
         super(jitter, latency, low, high);
         this.id = Id;
     }

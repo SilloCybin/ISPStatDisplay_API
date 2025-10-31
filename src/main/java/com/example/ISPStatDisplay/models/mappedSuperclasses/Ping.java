@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.ping;
+package com.example.ISPStatDisplay.models.mappedSuperclasses;
 
 import jakarta.persistence.MappedSuperclass;
 

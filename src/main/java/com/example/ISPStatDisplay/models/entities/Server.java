@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models;
+package com.example.ISPStatDisplay.models.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,12 +1,13 @@
-package com.example.ISPStatDisplay.models.ping;
+package com.example.ISPStatDisplay.models.entities;
 
+import com.example.ISPStatDisplay.models.mappedSuperclasses.Ping;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class UploadPing extends Ping{
+public class UploadPing extends Ping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
