@@ -3,7 +3,6 @@ package com.example.ISPStatDisplay.repositories;
 import com.example.ISPStatDisplay.models.entities.MetricPoint;
 import com.example.ISPStatDisplay.models.entities.SpeedtestData;
 import com.example.ISPStatDisplay.models.records.MetricPointDTO;
-import com.example.ISPStatDisplay.models.records.SpeedtestDataDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,10 +27,10 @@ public interface SpeedTestStatsRepository extends JpaRepository<SpeedtestData, I
         * Get entire history queries
         */
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s")
     List<MetricPoint> getAllDownloadBandwidths();
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s")
     List<MetricPoint> getAllUploadBandwidths();
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.latency) FROM SpeedtestData s")
@@ -70,17 +69,17 @@ public interface SpeedTestStatsRepository extends JpaRepository<SpeedtestData, I
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.jitter) FROM SpeedtestData s")
     List<MetricPointDTO> getAllIdlePingJitters();
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.packetLoss) FROM SpeedtestData s")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.packetLoss) FROM SpeedtestData s")
     List<MetricPoint> getAllPacketLosses();
 
         /*
         * From start date queries
         */
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
     List<MetricPoint> getDownloadBandwidthFromStartDateToNow(Date startDate);
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
     List<MetricPoint> getUploadBandwidthFromStartDateToNow(Date startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
@@ -119,17 +118,17 @@ public interface SpeedTestStatsRepository extends JpaRepository<SpeedtestData, I
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
     List<MetricPointDTO> getIdlePingJitterFromStartDateToNow(Date startDate);
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.packetLoss) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.packetLoss) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
     List<MetricPoint> getPacketLossFromStartDateToNow(Date startDate);
 
         /*
         * On date range queries
         */
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
     List<MetricPoint> getDownloadBandwidthOnDateRange(Date startDate, Date endDate);
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
     List<MetricPoint> getUploadBandwidthOnDateRange(Date startDate, Date endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
@@ -168,7 +167,7 @@ public interface SpeedTestStatsRepository extends JpaRepository<SpeedtestData, I
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
     List<MetricPointDTO> getIdlePingJitterOnDateRange(Date startDate, Date endDate);
 
-    @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.packetLoss) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
+    @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.packetLoss) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
     List<MetricPoint> getPacketLossOnDateRange(Date startDate, Date endDate);
 
 }
