@@ -1,5 +1,5 @@
 package com.example.ISPStatDisplay.models.records;
 
-import java.util.Date;
+import java.time.Instant;
 
-public record MetricPointDTO(Date timestamp, Number value) {}
+public record MetricPointDTO(Instant timestamp, Number value) {}

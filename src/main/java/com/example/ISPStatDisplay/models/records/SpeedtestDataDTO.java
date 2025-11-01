@@ -1,8 +1,8 @@
 package com.example.ISPStatDisplay.models.records;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
-public record SpeedtestDataDTO(Timestamp timestamp,
+public record SpeedtestDataDTO(Instant timestamp,
                                IdlePingDTO idlePing,
                                DownloadTestDTO downloadTest,
                                UploadTestDTO uploadTest,

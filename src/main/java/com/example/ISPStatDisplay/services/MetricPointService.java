@@ -5,6 +5,7 @@ import com.example.ISPStatDisplay.repositories.SpeedTestStatsRepository;
 import com.example.ISPStatDisplay.utilities.Utilities;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class MetricPointService {
         };
     }
 
-    public List<MetricPointDTO> getMetricFromStartDateToNow(String metric, Date startDate) {
+    public List<MetricPointDTO> getMetricFromStartDateToNow(String metric, Instant startDate) {
         return switch (metric) {
             case "downloadBandwidth" ->
                     Utilities.truncateBandwidthValue(repo.getDownloadBandwidthFromStartDateToNow(startDate));
@@ -61,7 +62,7 @@ public class MetricPointService {
         };
     }
 
-    public List<MetricPointDTO> getMetricOnDateRange(String metric, Date startDate, Date endDate) {
+    public List<MetricPointDTO> getMetricOnDateRange(String metric, Instant startDate, Instant endDate) {
         return switch (metric) {
             case "downloadBandwidth" ->
                     Utilities.truncateBandwidthValue(repo.getDownloadBandwidthOnDateRange(startDate, endDate));

@@ -6,6 +6,7 @@ import com.example.ISPStatDisplay.models.records.MetricPointDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -77,97 +78,97 @@ public interface SpeedTestStatsRepository extends JpaRepository<SpeedtestData, I
         */
 
     @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPoint> getDownloadBandwidthFromStartDateToNow(Date startDate);
+    List<MetricPoint> getDownloadBandwidthFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPoint> getUploadBandwidthFromStartDateToNow(Date startDate);
+    List<MetricPoint> getUploadBandwidthFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getDownloadPingLatencyFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getDownloadPingLatencyFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getUploadPingLatencyFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getUploadPingLatencyFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getIdlePingLatencyFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getIdlePingLatencyFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.high) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getDownloadPingHighFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getDownloadPingHighFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.high) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getUploadPingHighFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getUploadPingHighFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.high) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getIdlePingHighFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getIdlePingHighFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.low) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getDownloadPingLowFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getDownloadPingLowFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.low) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getUploadPingLowFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getUploadPingLowFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.low) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getIdlePingLowFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getIdlePingLowFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getDownloadPingJitterFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getDownloadPingJitterFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getUploadPingJitterFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getUploadPingJitterFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPointDTO> getIdlePingJitterFromStartDateToNow(Date startDate);
+    List<MetricPointDTO> getIdlePingJitterFromStartDateToNow(Instant startDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.packetLoss) FROM SpeedtestData s WHERE s.timestamp >= :startDate")
-    List<MetricPoint> getPacketLossFromStartDateToNow(Date startDate);
+    List<MetricPoint> getPacketLossFromStartDateToNow(Instant startDate);
 
         /*
         * On date range queries
         */
 
     @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.downloadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPoint> getDownloadBandwidthOnDateRange(Date startDate, Date endDate);
+    List<MetricPoint> getDownloadBandwidthOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.uploadTest.bandwidth) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPoint> getUploadBandwidthOnDateRange(Date startDate, Date endDate);
+    List<MetricPoint> getUploadBandwidthOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getDownloadPingLatencyOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getDownloadPingLatencyOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getUploadPingLatencyOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getUploadPingLatencyOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.latency) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getIdlePingLatencyOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getIdlePingLatencyOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.low) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getDownloadPingLowOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getDownloadPingLowOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.low) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getUploadPingLowOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getUploadPingLowOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.low) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getIdlePingLowOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getIdlePingLowOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.high) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getDownloadPingHighOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getDownloadPingHighOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.high) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getUploadPingHighOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getUploadPingHighOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.high) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getIdlePingHighOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getIdlePingHighOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.downloadTest.downloadPing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getDownloadPingJitterOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getDownloadPingJitterOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.uploadTest.uploadPing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getUploadPingJitterOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getUploadPingJitterOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.records.MetricPointDTO(s.timestamp, s.idlePing.jitter) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPointDTO> getIdlePingJitterOnDateRange(Date startDate, Date endDate);
+    List<MetricPointDTO> getIdlePingJitterOnDateRange(Instant startDate, Instant endDate);
 
     @Query("SELECT new com.example.ISPStatDisplay.models.entities.MetricPoint(s.timestamp, s.packetLoss) FROM SpeedtestData s WHERE s.timestamp >= :startDate AND s.timestamp <= :endDate")
-    List<MetricPoint> getPacketLossOnDateRange(Date startDate, Date endDate);
+    List<MetricPoint> getPacketLossOnDateRange(Instant startDate, Instant endDate);
 
 }

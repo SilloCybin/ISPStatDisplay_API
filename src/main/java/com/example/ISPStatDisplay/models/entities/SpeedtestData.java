@@ -1,7 +1,8 @@
 package com.example.ISPStatDisplay.models.entities;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+
+import java.time.Instant;
 
 @Entity
 public class SpeedtestData {
@@ -10,7 +11,7 @@ public class SpeedtestData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Timestamp timestamp;
+    private Instant timestamp;
 
     @OneToOne
     @JoinColumn
@@ -34,7 +35,7 @@ public class SpeedtestData {
 
     public SpeedtestData() {}
 
-    public SpeedtestData(Long id, Timestamp timestamp, IdlePing idlePing, DownloadTest downloadTest, UploadTest uploadTest, Float packetLoss, String isp, Server server) {
+    public SpeedtestData(Long id, Instant timestamp, IdlePing idlePing, DownloadTest downloadTest, UploadTest uploadTest, Float packetLoss, String isp, Server server) {
         this.id = id;
         this.timestamp = timestamp;
         this.idlePing = idlePing;
@@ -45,11 +46,11 @@ public class SpeedtestData {
         this.server = server;
     }
 
-    public Timestamp getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 

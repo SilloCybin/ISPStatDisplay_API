@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class MetricPointController {
     @GetMapping("/fromStartDate/{metric}")
     public ResponseEntity<List<MetricPointDTO>> getMetricFromStartDateToNow(
             @PathVariable String metric,
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant startDate) {
 
         List<MetricPointDTO> data = this.metricPointservice.getMetricFromStartDateToNow(metric, startDate);
         return new ResponseEntity<>(data, HttpStatus.OK);
@@ -45,8 +42,8 @@ public class MetricPointController {
     @GetMapping("/dateRange/{metric}")
     public ResponseEntity<List<MetricPointDTO>> getMetricOnDateRange(
             @PathVariable String metric,
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant endDate) {
 
         List<MetricPointDTO> data = this.metricPointservice.getMetricOnDateRange(metric, startDate, endDate);
         return new ResponseEntity<>(data, HttpStatus.OK);
