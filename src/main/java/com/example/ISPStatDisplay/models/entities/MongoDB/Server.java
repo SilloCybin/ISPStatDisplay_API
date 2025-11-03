@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.models.entities.MongoDB;
 
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "server")
