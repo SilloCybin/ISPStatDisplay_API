@@ -1,19 +1,19 @@
 package com.example.ISPStatDisplay.models.entities.MongoDB;
 
-public class DownloadTestMongo {
+public class UploadTest {
 
     private Long bandwidth;
     private Long bytes;
     private Float elapsed;
-    private DownloadPingMongo downloadPingMongo;
+    private UploadPing uploadPing;
 
-    public DownloadTestMongo() {}
+    public UploadTest() {}
 
-    public DownloadTestMongo(Long bandwidth, Long bytes, Float elapsed, DownloadPingMongo downloadPingMongo) {
+    public UploadTest(Long bandwidth, Long bytes, Float elapsed, UploadPing uploadPing) {
         this.bandwidth = bandwidth;
         this.bytes = bytes;
         this.elapsed = elapsed;
-        this.downloadPingMongo = downloadPingMongo;
+        this.uploadPing = uploadPing;
     }
 
     public Long getBandwidth() {
@@ -40,11 +40,11 @@ public class DownloadTestMongo {
         this.elapsed = elapsed;
     }
 
-    public DownloadPingMongo getDownloadPingMongo() {
-        return downloadPingMongo;
+    public UploadPing getUploadPing() {
+        return uploadPing;
     }
 
-    public void setDownloadPingMongo(DownloadPingMongo downloadPingMongo) {
-        this.downloadPingMongo = downloadPingMongo;
+    public void setUploadPing(UploadPing downloadPingMongo) {
+        this.uploadPing = downloadPingMongo;
     }
 }

@@ -1,20 +1,20 @@
 package com.example.ISPStatDisplay.models.entities.MongoDB;
 
-public class DownloadPingMongo  {
+public class UploadPing {
 
     private Float jitter;
     private Float latency;
     private Float low;
     private Float high;
 
-    public DownloadPingMongo(Float jitter, Float latency, Float low, Float high) {
+    public UploadPing(Float jitter, Float latency, Float low, Float high) {
         this.jitter = jitter;
         this.latency = latency;
         this.low = low;
         this.high = high;
     }
 
-    public DownloadPingMongo() {}
+    public UploadPing() {}
 
     public Float getJitter() {
         return jitter;

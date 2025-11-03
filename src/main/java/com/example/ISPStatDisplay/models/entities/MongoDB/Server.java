@@ -4,7 +4,7 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "server")
-public class ServerMongo {
+public class Server {
 
     @Id
     private Long id;
@@ -23,11 +23,11 @@ public class ServerMongo {
 
     private String ip;
 
-    public ServerMongo() {
+    public Server() {
     }
 
 
-    public ServerMongo(Long id, Long server_id, String hostname, Long port, String provider, String location, String country, String ip) {
+    public Server(Long id, Long server_id, String hostname, Long port, String provider, String location, String country, String ip) {
         this.id = id;
         this.server_id = server_id;
         this.hostname = hostname;

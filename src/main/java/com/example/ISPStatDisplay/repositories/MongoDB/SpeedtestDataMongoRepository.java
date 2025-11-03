@@ -1,7 +1,7 @@
 package com.example.ISPStatDisplay.repositories.MongoDB;
 
-import com.example.ISPStatDisplay.models.entities.MongoDB.SpeedtestDataMongo;
+import com.example.ISPStatDisplay.models.entities.MongoDB.SpeedtestData;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface SpeedtestDataMongoRepository extends MongoRepository<SpeedtestDataMongo, Long> {
+public interface SpeedtestDataMongoRepository extends MongoRepository<SpeedtestData, Long> {
 }

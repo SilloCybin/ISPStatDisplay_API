@@ -1,8 +1,5 @@
 package com.example.ISPStatDisplay.services.sync;
 
-import com.example.ISPStatDisplay.models.entities.JPA.Averages;
-import com.example.ISPStatDisplay.models.entities.JPA.Server;
-import com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData;
 import com.example.ISPStatDisplay.models.entities.MongoDB.*;
 import com.example.ISPStatDisplay.repositories.JPA.AveragesJPARepository;
 import com.example.ISPStatDisplay.repositories.JPA.ServerJPARepository;
@@ -47,14 +44,14 @@ public class SyncService {
     public void syncServers() {
         /* Reinsert entire list of servers every time : very few servers, new server extremely rare, no need to keep
             last inserted's id to add only last line */
-        List<Server> allServers = this.serverJPARepository.findAll();
-        List<ServerMongo> convertedServers = allServers.stream().map(this::mapServerToMongo).toList();
+        List<com.example.ISPStatDisplay.models.entities.JPA.Server> allServers = this.serverJPARepository.findAll();
+        List<Server> convertedServers = allServers.stream().map(this::mapServerToMongo).toList();
         this.serverMongoRepository.saveAll(convertedServers);
         System.out.println("Synced " + allServers.size() + " servers to MongoDB!");
     }
 
-    private ServerMongo mapServerToMongo(Server server){
-        ServerMongo serverMongo = new ServerMongo();
+    private Server mapServerToMongo(com.example.ISPStatDisplay.models.entities.JPA.Server server){
+        Server serverMongo = new Server();
         serverMongo.setId(server.getServer_id());
         serverMongo.setServer_id(server.getServer_id());
         serverMongo.setHostname(server.getHostname());
@@ -68,69 +65,69 @@ public class SyncService {
 
     @Transactional(readOnly = true)
     public void syncSpeedtestData() {
-        List<SpeedtestData> allSpeedtestData = this.speedTestStatsJPARepository.findAllByIdGreaterThan(this.idOfLastSpeedtestDataInserted);
-        List<SpeedtestDataMongo> convertedSpeedtestData = allSpeedtestData.stream().map(this::mapSpeedtestDataToMongo).toList();
+        List<com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData> allSpeedtestData = this.speedTestStatsJPARepository.findAllByIdGreaterThan(this.idOfLastSpeedtestDataInserted);
+        List<SpeedtestData> convertedSpeedtestData = allSpeedtestData.stream().map(this::mapSpeedtestDataToMongo).toList();
         this.speedtestDataMongoRepository.saveAll(convertedSpeedtestData);
         System.out.println("Synchronized " + allSpeedtestData + " with MongoDB!");
         this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId();
     }
 
-    private SpeedtestDataMongo mapSpeedtestDataToMongo(SpeedtestData speedtestData){
-        SpeedtestDataMongo speedtestDataMongo = new SpeedtestDataMongo();
+    private SpeedtestData mapSpeedtestDataToMongo(com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData speedtestData){
+        SpeedtestData speedtestDataMongo = new SpeedtestData();
 
-        IdlePingMongo idlePingMongo = new IdlePingMongo();
-        idlePingMongo.setHigh(speedtestData.getIdlePing().getHigh());
-        idlePingMongo.setLow(speedtestData.getIdlePing().getLow());
-        idlePingMongo.setJitter(speedtestData.getIdlePing().getJitter());
-        idlePingMongo.setLatency(speedtestData.getIdlePing().getLatency());
-        DownloadTestMongo downloadTestMongo = getDownloadTestMongo(speedtestData);
-        UploadTestMongo uploadTestMongo = getUploadTestMongo(speedtestData);
+        IdlePing idlePing = new IdlePing();
+        idlePing.setHigh(speedtestData.getIdlePing().getHigh());
+        idlePing.setLow(speedtestData.getIdlePing().getLow());
+        idlePing.setJitter(speedtestData.getIdlePing().getJitter());
+        idlePing.setLatency(speedtestData.getIdlePing().getLatency());
+        DownloadTest downloadTest = getDownloadTestMongo(speedtestData);
+        UploadTest uploadTest = getUploadTestMongo(speedtestData);
         speedtestDataMongo.setId(speedtestData.getId());
         speedtestDataMongo.setTimestamp(speedtestData.getTimestamp());
-        speedtestDataMongo.setIdlePingMongo(idlePingMongo);
-        speedtestDataMongo.setDownloadTestMongo(downloadTestMongo);
-        speedtestDataMongo.setUploadTestMongo(uploadTestMongo);
+        speedtestDataMongo.setIdlePingMongo(idlePing);
+        speedtestDataMongo.setDownloadTest(downloadTest);
+        speedtestDataMongo.setUploadTest(uploadTest);
         speedtestDataMongo.setPacketLoss(speedtestData.getPacketLoss());
         speedtestDataMongo.setIsp(speedtestData.getIsp());
-        speedtestDataMongo.setServerMongo(this.serverMongoRepository.findById(speedtestData.getServer().getServer_id())
+        speedtestDataMongo.setServer(this.serverMongoRepository.findById(speedtestData.getServer().getServer_id())
                         .orElseThrow(() -> new RuntimeException("ServerMongo not found for id " + speedtestData.getServer().getServer_id())));
 
         return speedtestDataMongo;
     }
 
-    private static UploadTestMongo getUploadTestMongo(SpeedtestData speedtestData) {
-        UploadPingMongo uploadPingMongo = new UploadPingMongo();
-        uploadPingMongo.setHigh(speedtestData.getUploadTest().getUploadPing().getHigh());
-        uploadPingMongo.setLow(speedtestData.getUploadTest().getUploadPing().getLow());
-        uploadPingMongo.setJitter(speedtestData.getUploadTest().getUploadPing().getJitter());
-        uploadPingMongo.setLatency(speedtestData.getUploadTest().getUploadPing().getLatency());
-        UploadTestMongo uploadTestMongo = new UploadTestMongo();
-        uploadTestMongo.setBandwidth(speedtestData.getUploadTest().getBandwidth());
-        uploadTestMongo.setBytes(speedtestData.getUploadTest().getBytes());
-        uploadTestMongo.setElapsed(speedtestData.getUploadTest().getElapsed());
-        uploadTestMongo.setUploadPingMongo(uploadPingMongo);
-        return uploadTestMongo;
+    private static UploadTest getUploadTestMongo(com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData speedtestData) {
+        UploadPing uploadPing = new UploadPing();
+        uploadPing.setHigh(speedtestData.getUploadTest().getUploadPing().getHigh());
+        uploadPing.setLow(speedtestData.getUploadTest().getUploadPing().getLow());
+        uploadPing.setJitter(speedtestData.getUploadTest().getUploadPing().getJitter());
+        uploadPing.setLatency(speedtestData.getUploadTest().getUploadPing().getLatency());
+        UploadTest uploadTest = new UploadTest();
+        uploadTest.setBandwidth(speedtestData.getUploadTest().getBandwidth());
+        uploadTest.setBytes(speedtestData.getUploadTest().getBytes());
+        uploadTest.setElapsed(speedtestData.getUploadTest().getElapsed());
+        uploadTest.setUploadPing(uploadPing);
+        return uploadTest;
     }
 
-    private static DownloadTestMongo getDownloadTestMongo(SpeedtestData speedtestData) {
-        DownloadPingMongo downloadPingMongo = new DownloadPingMongo();
-        downloadPingMongo.setHigh(speedtestData.getDownloadTest().getDownloadPing().getHigh());
-        downloadPingMongo.setLow(speedtestData.getDownloadTest().getDownloadPing().getLow());
-        downloadPingMongo.setJitter(speedtestData.getDownloadTest().getDownloadPing().getJitter());
-        downloadPingMongo.setLatency(speedtestData.getDownloadTest().getDownloadPing().getLatency());
-        DownloadTestMongo downloadTestMongo = new DownloadTestMongo();
-        downloadTestMongo.setBandwidth(speedtestData.getDownloadTest().getBandwidth());
-        downloadTestMongo.setBytes(speedtestData.getDownloadTest().getBytes());
-        downloadTestMongo.setElapsed(speedtestData.getDownloadTest().getElapsed());
-        downloadTestMongo.setDownloadPingMongo(downloadPingMongo);
-        return downloadTestMongo;
+    private static DownloadTest getDownloadTestMongo(com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData speedtestData) {
+        DownloadPing downloadPing = new DownloadPing();
+        downloadPing.setHigh(speedtestData.getDownloadTest().getDownloadPing().getHigh());
+        downloadPing.setLow(speedtestData.getDownloadTest().getDownloadPing().getLow());
+        downloadPing.setJitter(speedtestData.getDownloadTest().getDownloadPing().getJitter());
+        downloadPing.setLatency(speedtestData.getDownloadTest().getDownloadPing().getLatency());
+        DownloadTest downloadTest = new DownloadTest();
+        downloadTest.setBandwidth(speedtestData.getDownloadTest().getBandwidth());
+        downloadTest.setBytes(speedtestData.getDownloadTest().getBytes());
+        downloadTest.setElapsed(speedtestData.getDownloadTest().getElapsed());
+        downloadTest.setDownloadPing(downloadPing);
+        return downloadTest;
     }
 
     @Transactional(readOnly = true)
     public void syncAverages() {
-        Averages averages = this.averagesJPARepository.findById(1)
+        com.example.ISPStatDisplay.models.entities.JPA.Averages averages = this.averagesJPARepository.findById(1)
                 .orElseThrow(() -> new RuntimeException("Averages not found"));
-        AveragesMongo averagesMongo = new AveragesMongo();
+        Averages averagesMongo = new Averages();
         averagesMongo.setId(averages.getId());
         averagesMongo.setDownloadBandwidth(averages.getDownloadBandwidth());
         averagesMongo.setUploadBandwidth(averages.getUploadBandwidth());
