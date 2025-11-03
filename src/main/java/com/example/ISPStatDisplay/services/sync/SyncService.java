@@ -25,7 +25,7 @@ public class SyncService {
     private final AveragesJPARepository averagesJPARepository;
     private final ServerJPARepository serverJPARepository;
 
-    private Long idOfLastSpeedtestDataInserted = 400L;
+    private Long idOfLastSpeedtestDataInserted;
 
     public SyncService(AveragesMongoRepository averagesMongoRepository,
                        ServerMongoRepository serverMongoRepository,
@@ -40,6 +40,7 @@ public class SyncService {
         this.speedTestStatsJPARepository = speedTestStatsJPARepository;
         this.averagesJPARepository = averagesJPARepository;
         this.serverJPARepository = serverJPARepository;
+        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId()
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +72,7 @@ public class SyncService {
         List<SpeedtestDataMongo> convertedSpeedtestData = allSpeedtestData.stream().map(this::mapSpeedtestDataToMongo).toList();
         this.speedtestDataMongoRepository.saveAll(convertedSpeedtestData);
         System.out.println("Synchronized " + allSpeedtestData + " with MongoDB!");
-        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.count();
+        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId();
     }
 
     private SpeedtestDataMongo mapSpeedtestDataToMongo(SpeedtestData speedtestData){

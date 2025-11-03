@@ -20,8 +20,9 @@ public interface SpeedTestStatsJPARepository extends JpaRepository<SpeedtestData
 
     List<SpeedtestData> findAllByIdGreaterThan(Long idOfLastInserted);
 
-    long count();
-    /*
+    @Query("SELECT MAX(s.id) FROM SpeedtestData s")
+    Long findHighestId();
+;    /*
     * MetricPoint queries (MetricPoint not an entity, therefore it can't have its own repo)
     */
 
