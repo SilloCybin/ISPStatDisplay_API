@@ -1,20 +1,20 @@
-package com.example.ISPStatDisplay.models.entities.JPA.mappedSuperclasses;
+package com.example.ISPStatDisplay.models;
 
-import jakarta.persistence.MappedSuperclass;
-
-@MappedSuperclass
-public class LoadTest {
+public class UploadTest {
 
     private Long bandwidth;
     private Long bytes;
     private Float elapsed;
+    private UploadPing uploadPing;
 
-    public LoadTest() {}
+    public UploadTest() {
+    }
 
-    public LoadTest(Long bandwidth, Long bytes, Float elapsed) {
+    public UploadTest(Long bandwidth, Long bytes, Float elapsed, UploadPing uploadPing) {
         this.bandwidth = bandwidth;
         this.bytes = bytes;
         this.elapsed = elapsed;
+        this.uploadPing = uploadPing;
     }
 
     public Long getBandwidth() {
@@ -40,4 +40,14 @@ public class LoadTest {
     public void setElapsed(Float elapsed) {
         this.elapsed = elapsed;
     }
+
+    public UploadPing getUploadPing() {
+        return uploadPing;
+    }
+
+    public void setUploadPing(UploadPing uploadPing) {
+        this.uploadPing = uploadPing;
+    }
 }
+
+

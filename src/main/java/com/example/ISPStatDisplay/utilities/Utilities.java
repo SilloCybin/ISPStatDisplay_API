@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.utilities;
 
-import com.example.ISPStatDisplay.models.entities.JPA.MetricPoint;
+import com.example.ISPStatDisplay.models.MetricPoint;
 import com.example.ISPStatDisplay.models.records.MetricPointDTO;
 
 import java.util.ArrayList;

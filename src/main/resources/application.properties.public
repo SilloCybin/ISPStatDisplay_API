@@ -1,14 +1,8 @@
-spring.datasource.url =
-spring.datasource.driver-class-name =
-hibernate.dialect =
-spring.datasource.username =
-spring.datasource.password =
-spring.jpa.hibernate.ddl-auto =
-spring.jpa.show-sql =
-
 spring.data.mongodb.uri =
 spring.main.allow-bean-definition-overriding =
 spring.data.mongodb.pool.max-size =
 spring.data.mongodb.pool.min-size =
 spring.data.mongodb.pool.max-wait-time =
 spring.data.mongodb.pool.max-connection-idle-time =
+
+server.port =

@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.entities.JPA;
+package com.example.ISPStatDisplay.models;
 
 import java.time.Instant;
 

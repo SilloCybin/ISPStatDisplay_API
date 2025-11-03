@@ -1,39 +1,37 @@
-package com.example.ISPStatDisplay.models.entities.JPA;
+package com.example.ISPStatDisplay.models.documents;
 
-import jakarta.persistence.*;
+import com.example.ISPStatDisplay.models.DownloadTest;
+import com.example.ISPStatDisplay.models.IdlePing;
+import com.example.ISPStatDisplay.models.UploadTest;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Entity
+@Document(collection = "speedtest_data")
 public class SpeedtestData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Instant timestamp;
 
-    @OneToOne
-    @JoinColumn
     private IdlePing idlePing;
 
-    @OneToOne
-    @JoinColumn
     private DownloadTest downloadTest;
 
-    @OneToOne
-    @JoinColumn
     private UploadTest uploadTest;
 
     private Float packetLoss;
 
     private String isp;
 
-    @ManyToOne
-    @JoinColumn(name = "server_id", referencedColumnName = "server_id")
+    @DBRef
     private Server server;
 
     public SpeedtestData() {}
+
 
     public SpeedtestData(Long id, Instant timestamp, IdlePing idlePing, DownloadTest downloadTest, UploadTest uploadTest, Float packetLoss, String isp, Server server) {
         this.id = id;
@@ -44,6 +42,14 @@ public class SpeedtestData {
         this.packetLoss = packetLoss;
         this.isp = isp;
         this.server = server;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Instant getTimestamp() {
@@ -60,6 +66,22 @@ public class SpeedtestData {
 
     public void setIdlePing(IdlePing idlePing) {
         this.idlePing = idlePing;
+    }
+
+    public DownloadTest getDownloadTest() {
+        return downloadTest;
+    }
+
+    public void setDownloadTest(DownloadTest downloadTest) {
+        this.downloadTest = downloadTest;
+    }
+
+    public UploadTest getUploadTest() {
+        return uploadTest;
+    }
+
+    public void setUploadTest(UploadTest uploadTest) {
+        this.uploadTest = uploadTest;
     }
 
     public Float getPacketLoss() {
@@ -85,16 +107,4 @@ public class SpeedtestData {
     public void setServer(Server server) {
         this.server = server;
     }
-
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public DownloadTest getDownloadTest() { return downloadTest; }
-
-    public void setDownloadTest(DownloadTest downloadTest) { this.downloadTest = downloadTest;}
-
-    public UploadTest getUploadTest() { return uploadTest; }
-
-    public void setUploadTest(UploadTest uploadTest) { this.uploadTest = uploadTest; }
 }

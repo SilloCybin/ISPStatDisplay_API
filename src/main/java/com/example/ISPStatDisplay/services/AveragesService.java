@@ -1,20 +1,37 @@
 package com.example.ISPStatDisplay.services;
 
 import com.example.ISPStatDisplay.models.records.AveragesDTO;
-import com.example.ISPStatDisplay.repositories.JPA.AveragesJPARepository;
+import com.example.ISPStatDisplay.repositories.AveragesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
-
 @Service
-@Transactional
 public class AveragesService {
 
     @Autowired
-    private AveragesJPARepository repo;
+    private AveragesRepository repo;
+
+    public AveragesService(AveragesRepository averagesRepository){
+        this.repo = averagesRepository;
+    }
 
     public AveragesDTO getAverages(){
-        return repo.getAverages();
+        return this.repo.findById(1L).map(a -> new AveragesDTO(
+                a.getDownloadBandwidth(),
+                a.getUploadBandwidth(),
+                a.getDownloadPingLatency(),
+                a.getUploadPingLatency(),
+                a.getIdlePingLatency(),
+                a.getDownloadPingHigh(),
+                a.getUploadPingHigh(),
+                a.getIdlePingHigh(),
+                a.getDownloadPingLow(),
+                a.getUploadPingLow(),
+                a.getIdlePingLow(),
+                a.getDownloadPingJitter(),
+                a.getUploadPingJitter(),
+                a.getIdlePingJitter(),
+                a.getPacketLoss()
+        )).orElse(null);
     }
 }

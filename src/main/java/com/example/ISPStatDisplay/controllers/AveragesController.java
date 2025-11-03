@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AveragesController {
 
     @Autowired
-    private final AveragesService service = new AveragesService();
+    private final AveragesService service;
+
+    public AveragesController(AveragesService averagesService){
+        this.service = averagesService;
+    }
 
     @GetMapping("/getAverages")
     public AveragesDTO getAverages(){

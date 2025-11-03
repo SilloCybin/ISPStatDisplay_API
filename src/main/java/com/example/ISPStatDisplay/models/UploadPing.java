@@ -1,23 +1,20 @@
-package com.example.ISPStatDisplay.models.entities.JPA.mappedSuperclasses;
+package com.example.ISPStatDisplay.models;
 
-import jakarta.persistence.MappedSuperclass;
-
-@MappedSuperclass
-public class Ping {
+public class UploadPing {
 
     private Float jitter;
     private Float latency;
     private Float low;
     private Float high;
 
-    public Ping(Float jitter, Float latency, Float low, Float high) {
+    public UploadPing(Float jitter, Float latency, Float low, Float high) {
         this.jitter = jitter;
         this.latency = latency;
         this.low = low;
         this.high = high;
     }
 
-    public Ping() {}
+    public UploadPing() {}
 
     public Float getJitter() {
         return jitter;
@@ -50,4 +47,5 @@ public class Ping {
     public void setHigh(Float high) {
         this.high = high;
     }
+
 }
