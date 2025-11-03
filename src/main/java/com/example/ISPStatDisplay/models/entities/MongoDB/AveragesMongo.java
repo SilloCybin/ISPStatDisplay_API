@@ -1,11 +1,10 @@
-package com.example.ISPStatDisplay.models.entities;
+package com.example.ISPStatDisplay.models.entities.MongoDB;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-public class Averages {
+@Document(collection = "averages")
+public class AveragesMongo {
 
     @Id
     private Integer id;
@@ -40,9 +39,9 @@ public class Averages {
 
     private Float packetLoss;
 
-    public Averages() {}
+    public AveragesMongo() {}
 
-    public Averages(Integer id,
+    public AveragesMongo(Integer id,
                     Long downloadBandwidth,
                     Long uploadBandwidth,
                     Float downloadPingLatency,

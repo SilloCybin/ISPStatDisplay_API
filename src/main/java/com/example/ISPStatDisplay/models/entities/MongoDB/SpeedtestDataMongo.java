@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.entities;
+package com.example.ISPStatDisplay.models.entities.MongoDB;
 
 import jakarta.persistence.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;

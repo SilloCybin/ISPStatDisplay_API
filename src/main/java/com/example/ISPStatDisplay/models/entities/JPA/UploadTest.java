@@ -1,6 +1,6 @@
-package com.example.ISPStatDisplay.models.entities;
+package com.example.ISPStatDisplay.models.entities.JPA;
 
-import com.example.ISPStatDisplay.models.mappedSuperclasses.LoadTest;
+import com.example.ISPStatDisplay.models.entities.JPA.mappedSuperclasses.LoadTest;
 
 import jakarta.persistence.*;
 

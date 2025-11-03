@@ -1,17 +1,15 @@
-package com.example.ISPStatDisplay.models.entities;
+package com.example.ISPStatDisplay.models.entities.JPA;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "server")
-public class ServerMongo {
+@Entity
+public class Server {
 
     @Id
-    private Long id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long server_id;
 
     private String hostname;
@@ -26,12 +24,10 @@ public class ServerMongo {
 
     private String ip;
 
-    public ServerMongo() {
+    public Server() {
     }
 
-
-    public ServerMongo(Long id, Long server_id, String hostname, Long port, String provider, String location, String country, String ip) {
-        this.id = id;
+    public Server(Long server_id, String hostname, Long port, String provider, String location, String country, String ip) {
         this.server_id = server_id;
         this.hostname = hostname;
         this.port = port;
@@ -39,14 +35,6 @@ public class ServerMongo {
         this.location = location;
         this.country = country;
         this.ip = ip;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getServer_id() {

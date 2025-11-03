@@ -1,20 +1,19 @@
 package com.example.ISPStatDisplay.services;
 
 import com.example.ISPStatDisplay.models.records.MetricPointDTO;
-import com.example.ISPStatDisplay.repositories.SpeedTestStatsRepository;
+import com.example.ISPStatDisplay.repositories.JPA.SpeedTestStatsJPARepository;
 import com.example.ISPStatDisplay.utilities.Utilities;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class MetricPointService {
 
-    private final SpeedTestStatsRepository repo;
+    private final SpeedTestStatsJPARepository repo;
 
-    public MetricPointService(SpeedTestStatsRepository repo){
+    public MetricPointService(SpeedTestStatsJPARepository repo){
         this.repo = repo;
     }
 

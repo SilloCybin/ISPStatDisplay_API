@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.entities;
+package com.example.ISPStatDisplay.models.entities.MongoDB;
 
 public class DownloadTestMongo {
 

@@ -1,11 +1,11 @@
-package com.example.ISPStatDisplay.repositories;
+package com.example.ISPStatDisplay.repositories.JPA;
 
-import com.example.ISPStatDisplay.models.entities.Averages;
+import com.example.ISPStatDisplay.models.entities.JPA.Averages;
 import com.example.ISPStatDisplay.models.records.AveragesDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface AveragesRepository extends JpaRepository<Averages, Integer> {
+public interface AveragesJPARepository extends JpaRepository<Averages, Integer> {
 
     @Query (""" 
      SELECT new com.example.ISPStatDisplay.models.records.AveragesDTO(

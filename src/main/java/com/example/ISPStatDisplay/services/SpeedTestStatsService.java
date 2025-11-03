@@ -1,8 +1,8 @@
 package com.example.ISPStatDisplay.services;
 
-import com.example.ISPStatDisplay.models.entities.SpeedtestData;
+import com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData;
 import com.example.ISPStatDisplay.models.records.*;
-import com.example.ISPStatDisplay.repositories.SpeedTestStatsRepository;
+import com.example.ISPStatDisplay.repositories.JPA.SpeedTestStatsJPARepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 public class SpeedTestStatsService {
 
     @Autowired
-    private SpeedTestStatsRepository repo;
+    private SpeedTestStatsJPARepository repo;
 
     public SpeedtestDataDTO getLatestSpeedTestData() {
 

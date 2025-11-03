@@ -1,6 +1,6 @@
-package com.example.ISPStatDisplay.models.entities;
+package com.example.ISPStatDisplay.models.entities.JPA;
 
-import com.example.ISPStatDisplay.models.mappedSuperclasses.Ping;
+import com.example.ISPStatDisplay.models.entities.JPA.mappedSuperclasses.Ping;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
