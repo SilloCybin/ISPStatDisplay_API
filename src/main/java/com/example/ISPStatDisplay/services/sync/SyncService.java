@@ -40,7 +40,7 @@ public class SyncService {
         this.speedTestStatsJPARepository = speedTestStatsJPARepository;
         this.averagesJPARepository = averagesJPARepository;
         this.serverJPARepository = serverJPARepository;
-        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId()
+        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId();
     }
 
     @Transactional(readOnly = true)
