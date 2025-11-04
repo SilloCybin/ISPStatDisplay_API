@@ -24,7 +24,6 @@ public class SpeedtestDataController {
     public ResponseEntity<SpeedtestDataDTO> getLatestSpeedtestData() {
         try {
             SpeedtestDataDTO data = this.service.getLatestSpeedTestData();
-            System.out.println(data);
             return new ResponseEntity<>(data, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
