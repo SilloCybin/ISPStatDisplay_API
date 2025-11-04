@@ -2,6 +2,7 @@ package com.example.ISPStatDisplay.repositories;
 
 import com.example.ISPStatDisplay.models.MetricPoint;
 import com.example.ISPStatDisplay.models.documents.SpeedtestData;
+        ;
 import com.example.ISPStatDisplay.models.records.MetricPointDTO;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -31,62 +32,62 @@ public interface SpeedtestDataRepository extends MongoRepository<SpeedtestData, 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.latency' } }"
     })
-    List<MetricPointDTO> getAllDownloadPingLatencies();
+    List<MetricPoint> getAllDownloadPingLatencies();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.latency' } }"
     })
-    List<MetricPointDTO> getAllUploadPingLatencies();
+    List<MetricPoint> getAllUploadPingLatencies();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.latency' } }"
     })
-    List<MetricPointDTO> getAllIdlePingLatencies();
+    List<MetricPoint> getAllIdlePingLatencies();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.low' } }"
     })
-    List<MetricPointDTO> getAllDownloadPingLows();
+    List<MetricPoint> getAllDownloadPingLows();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.low' } }"
     })
-    List<MetricPointDTO> getAllUploadPingLows();
+    List<MetricPoint> getAllUploadPingLows();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.low' } }"
     })
-    List<MetricPointDTO> getAllIdlePingLows();
+    List<MetricPoint> getAllIdlePingLows();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.high' } }"
     })
-    List<MetricPointDTO> getAllDownloadPingHighs();
+    List<MetricPoint> getAllDownloadPingHighs();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.high' } }"
     })
-    List<MetricPointDTO> getAllUploadPingHighs();
+    List<MetricPoint> getAllUploadPingHighs();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.high' } }"
     })
-    List<MetricPointDTO> getAllIdlePingHighs();
+    List<MetricPoint> getAllIdlePingHighs();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.jitter' } }"
     })
-    List<MetricPointDTO> getAllDownloadPingJitters();
+    List<MetricPoint> getAllDownloadPingJitters();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.jitter' } }"
     })
-    List<MetricPointDTO> getAllUploadPingJitters();
+    List<MetricPoint> getAllUploadPingJitters();
 
     @Aggregation(pipeline = {
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.jitter' } }"
     })
-    List<MetricPointDTO> getAllIdlePingJitters();
+    List<MetricPoint> getAllIdlePingJitters();
 
     @Aggregation(pipeline = {"{ $project: { _id: 0, timestamp: 1, uploadBandwidth: '$uploadTest.packetLoss' } }"})
     List<MetricPoint> getAllPacketLosses();
@@ -110,67 +111,80 @@ public interface SpeedtestDataRepository extends MongoRepository<SpeedtestData, 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.latency' } }"
-    })     List<MetricPointDTO> getDownloadPingLatencyFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getDownloadPingLatencyFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.latency' } }"
-    })     List<MetricPointDTO> getUploadPingLatencyFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getUploadPingLatencyFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.latency' } }"
-    })     List<MetricPointDTO> getIdlePingLatencyFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getIdlePingLatencyFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.high' } }"
-    })     List<MetricPointDTO> getDownloadPingHighFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getDownloadPingHighFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.high' } }"
-    })     List<MetricPointDTO> getUploadPingHighFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getUploadPingHighFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.high' } }"
-    })     List<MetricPointDTO> getIdlePingHighFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getIdlePingHighFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.low' } }"
-    })     List<MetricPointDTO> getDownloadPingLowFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getDownloadPingLowFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.low' } }"
-    })     List<MetricPointDTO> getUploadPingLowFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getUploadPingLowFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.low' } }"
-    })     List<MetricPointDTO> getIdlePingLowFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getIdlePingLowFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.jitter' } }"
-    })     List<MetricPointDTO> getDownloadPingJitterFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getDownloadPingJitterFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.jitter' } }"
-    })     List<MetricPointDTO> getUploadPingJitterFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getUploadPingJitterFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.jitter' } }"
-    })     List<MetricPointDTO> getIdlePingJitterFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getIdlePingJitterFromStartDateToNow(Instant startDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$packetLoss' } }"
-    })     List<MetricPoint> getPacketLossFromStartDateToNow(Instant startDate);
+    })
+    List<MetricPoint> getPacketLossFromStartDateToNow(Instant startDate);
 
         /*
         * On date range queries
@@ -192,73 +206,73 @@ public interface SpeedtestDataRepository extends MongoRepository<SpeedtestData, 
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.latency' } }"
     })
-    List<MetricPointDTO> getDownloadPingLatencyOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getDownloadPingLatencyOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.latency' } }"
     })
-    List<MetricPointDTO> getUploadPingLatencyOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getUploadPingLatencyOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.latency' } }"
     })
-    List<MetricPointDTO> getIdlePingLatencyOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getIdlePingLatencyOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.low' } }"
     })
-    List<MetricPointDTO> getDownloadPingLowOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getDownloadPingLowOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.low' } }"
     })
-    List<MetricPointDTO> getUploadPingLowOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getUploadPingLowOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.low' } }"
     })
-    List<MetricPointDTO> getIdlePingLowOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getIdlePingLowOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.high' } }"
     })
-    List<MetricPointDTO> getDownloadPingHighOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getDownloadPingHighOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.high' } }"
     })
-    List<MetricPointDTO> getUploadPingHighOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getUploadPingHighOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.latency' } }"
     })
-    List<MetricPointDTO> getIdlePingHighOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getIdlePingHighOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$downloadTest.downloadPing.jitter' } }"
     })
-    List<MetricPointDTO> getDownloadPingJitterOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getDownloadPingJitterOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.uploadPing.jitter' } }"
     })
-    List<MetricPointDTO> getUploadPingJitterOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getUploadPingJitterOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
             "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.jitter' } }"
     })
-    List<MetricPointDTO> getIdlePingJitterOnDateRange(Instant startDate, Instant endDate);
+    List<MetricPoint> getIdlePingJitterOnDateRange(Instant startDate, Instant endDate);
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
