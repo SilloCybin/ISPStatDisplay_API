@@ -47,7 +47,7 @@ public class SyncService {
         List<com.example.ISPStatDisplay.models.entities.JPA.Server> allServers = this.serverJPARepository.findAll();
         List<Server> convertedServers = allServers.stream().map(this::mapServerToMongo).toList();
         this.serverMongoRepository.saveAll(convertedServers);
-        System.out.println("Synced " + allServers.size() + " servers to MongoDB!");
+        System.out.println("Synced Servers :" + allServers + " to MongoDB!");
     }
 
     private Server mapServerToMongo(com.example.ISPStatDisplay.models.entities.JPA.Server server){
@@ -68,7 +68,7 @@ public class SyncService {
         List<com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData> allSpeedtestData = this.speedTestStatsJPARepository.findAllByIdGreaterThan(this.idOfLastSpeedtestDataInserted);
         List<SpeedtestData> convertedSpeedtestData = allSpeedtestData.stream().map(this::mapSpeedtestDataToMongo).toList();
         this.speedtestDataMongoRepository.saveAll(convertedSpeedtestData);
-        System.out.println("Synchronized " + allSpeedtestData + " with MongoDB!");
+        System.out.println("Synced SpeedtestData :" + allSpeedtestData + " with MongoDB!");
         this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId();
     }
 
@@ -90,7 +90,7 @@ public class SyncService {
         speedtestDataMongo.setPacketLoss(speedtestData.getPacketLoss());
         speedtestDataMongo.setIsp(speedtestData.getIsp());
         speedtestDataMongo.setServer(this.serverMongoRepository.findById(speedtestData.getServer().getServer_id())
-                        .orElseThrow(() -> new RuntimeException("ServerMongo not found for id " + speedtestData.getServer().getServer_id())));
+                        .orElseThrow(() -> new RuntimeException("Server not found for id " + speedtestData.getServer().getServer_id())));
 
         return speedtestDataMongo;
     }
