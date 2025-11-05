@@ -47,7 +47,7 @@ public class SyncService {
         List<com.example.ISPStatDisplay.models.entities.JPA.Server> allServers = this.serverJPARepository.findAll();
         List<Server> convertedServers = allServers.stream().map(this::mapServerToMongo).toList();
         this.serverMongoRepository.saveAll(convertedServers);
-        System.out.println("Synced Servers :" + allServers + " to MongoDB!");
+        System.out.println("Synced Servers :" + allServers + " with MongoDB!");
     }
 
     private Server mapServerToMongo(com.example.ISPStatDisplay.models.entities.JPA.Server server){
@@ -146,7 +146,7 @@ public class SyncService {
         averagesMongo.setPacketLoss(averages.getPacketLoss());
 
         this.averagesMongoRepository.save(averagesMongo);
-        System.out.println("Synced Averages to MongoDB!");
+        System.out.println("Synced Averages: "+ averages +" with MongoDB!");
     }
 
 }
