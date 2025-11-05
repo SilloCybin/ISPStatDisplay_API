@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class IspStatDisplayApplication {
+public class IspStatDisplayMongoDBApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IspStatDisplayApplication.class, args);
+		SpringApplication.run(IspStatDisplayMongoDBApplication.class, args);
 	}
 
 }
