@@ -36,4 +36,5 @@ build/
 ### Some conf files ###
 src/main/resources/application-prod.properties
 src/main/resources/application.properties
+src/main/resources/application-save.properties
 src/test/*
