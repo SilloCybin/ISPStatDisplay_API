@@ -6,3 +6,4 @@ spring.data.mongodb.pool.max-wait-time =
 spring.data.mongodb.pool.max-connection-idle-time =
 
 server.port =
+spring.main.web-application-type =
