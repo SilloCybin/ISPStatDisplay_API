@@ -9,23 +9,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+
 @RestController
 public class AveragesStreamController {
 
     @Autowired
     private AveragesStreamService averagesStreamService;
 
-    public AveragesStreamController(AveragesStreamService averagesStreamService){
+    public AveragesStreamController(AveragesStreamService averagesStreamService) {
         this.averagesStreamService = averagesStreamService;
     }
 
     @GetMapping(value = "/averagesStream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<AveragesDTO>> streamAverages(){
-        return this.averagesStreamService.stream()
-                .map(data -> ServerSentEvent.<AveragesDTO>builder()
-                        .event("averages-update")
-                        .data(data)
-                        .build()
-                );
+    public Flux<ServerSentEvent<AveragesDTO>> streamAverages() {
+        return Flux.merge(
+                this.averagesStreamService.stream()
+                        .map(data -> ServerSentEvent.<AveragesDTO>builder()
+                                .event("averages-update")
+                                .data(data)
+                                .build()
+                        ),
+                Flux.interval(Duration.ofMinutes(1))
+                        .map(seq -> ServerSentEvent.<AveragesDTO>builder()
+                                .event("keepalive")
+                                .data(null)
+                                .build())
+        );
     }
 }
