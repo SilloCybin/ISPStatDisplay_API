@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.services;
 
-import com.example.ISPStatDisplay.models.records.AveragesDTO;
+import com.example.ISPStatDisplay.models.DTOs.AveragesDTO;
 import com.example.ISPStatDisplay.repositories.AveragesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

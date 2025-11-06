@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.controllers;
 
-import com.example.ISPStatDisplay.models.records.SpeedtestDataDTO;
+import com.example.ISPStatDisplay.models.DTOs.SpeedtestDataDTO;
 import com.example.ISPStatDisplay.services.SpeedtestDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

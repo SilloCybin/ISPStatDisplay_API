@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.controllers;
 
-import com.example.ISPStatDisplay.models.records.AveragesDTO;
+import com.example.ISPStatDisplay.models.DTOs.AveragesDTO;
 import com.example.ISPStatDisplay.services.AveragesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

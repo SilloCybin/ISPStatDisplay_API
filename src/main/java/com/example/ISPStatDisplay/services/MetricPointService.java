@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.services;
 
-import com.example.ISPStatDisplay.models.records.MetricPointDTO;
+import com.example.ISPStatDisplay.models.DTOs.MetricPointDTO;
 import com.example.ISPStatDisplay.repositories.SpeedtestDataRepository;
 import com.example.ISPStatDisplay.utilities.Utilities;
 import org.springframework.stereotype.Service;

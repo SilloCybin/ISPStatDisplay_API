@@ -1,6 +1,6 @@
 package com.example.ISPStatDisplay.controllers;
 
-import com.example.ISPStatDisplay.models.records.MetricPointDTO;
+import com.example.ISPStatDisplay.models.DTOs.MetricPointDTO;
 import com.example.ISPStatDisplay.services.MetricPointService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
