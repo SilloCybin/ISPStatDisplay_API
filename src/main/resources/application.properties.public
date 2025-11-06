@@ -2,8 +2,6 @@ spring.data.mongodb.uri =
 spring.main.allow-bean-definition-overriding =
 spring.data.mongodb.pool.max-size =
 spring.data.mongodb.pool.min-size =
-spring.data.mongodb.pool.max-wait-time =
-spring.data.mongodb.pool.max-connection-idle-time =
 
 server.port =
 spring.main.web-application-type =

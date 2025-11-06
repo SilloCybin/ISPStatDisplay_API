@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models;
+package com.example.ISPStatDisplay.models.beans;
 
 import java.time.Instant;
 

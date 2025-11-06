@@ -1,8 +1,11 @@
 package com.example.ISPStatDisplay.services;
 
-import com.example.ISPStatDisplay.models.records.AveragesDTO;
+import com.example.ISPStatDisplay.models.beans.documents.Averages;
+import com.example.ISPStatDisplay.models.DTOs.AveragesDTO;
 import jakarta.annotation.PostConstruct;
+import org.bson.Document;
 import org.springframework.data.mongodb.core.ChangeStreamEvent;
+import org.springframework.data.mongodb.core.ChangeStreamOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -24,14 +27,39 @@ public class AveragesStreamService {
     }
 
     public Flux<AveragesDTO> stream() {
-        return sink.asFlux();
+        return this.sink.asFlux();
     }
 
     @PostConstruct
     public void initStream() {
-        this.reactiveMongoTemplate.changeStream(AveragesDTO.class)
-                .listen()
+
+        Document match = new Document("$match", new Document("operationType", "update"));
+
+        ChangeStreamOptions options = ChangeStreamOptions.builder()
+                .filter(match)
+                .build();
+
+        this.reactiveMongoTemplate.changeStream("averages", options, Averages.class)
                 .map(ChangeStreamEvent::getBody)
+                .map(averages -> new AveragesDTO(
+                        averages.getDownloadBandwidth(),
+                        averages.getUploadBandwidth(),
+                        averages.getDownloadPingLatency(),
+                        averages.getUploadPingLatency(),
+                        averages.getIdlePingLatency(),
+                        averages.getDownloadPingHigh(),
+                        averages.getUploadPingHigh(),
+                        averages.getIdlePingHigh(),
+                        averages.getDownloadPingLow(),
+                        averages.getUploadPingLow(),
+                        averages.getIdlePingLow(),
+                        averages.getDownloadPingJitter(),
+                        averages.getUploadPingJitter(),
+                        averages.getIdlePingJitter(),
+                        averages.getPacketLoss()))
+                .doOnNext(data -> {
+                    System.out.println("Averages stream : New change detected in DB, publishing: " + data); // <-- log here
+                })
                 .doOnNext(this::publish)
                 .subscribe();
     }

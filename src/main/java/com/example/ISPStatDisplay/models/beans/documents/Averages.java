@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.documents;
+package com.example.ISPStatDisplay.models.beans.documents;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

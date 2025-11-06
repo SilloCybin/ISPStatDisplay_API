@@ -1,8 +1,8 @@
-package com.example.ISPStatDisplay.models.documents;
+package com.example.ISPStatDisplay.models.beans.documents;
 
-import com.example.ISPStatDisplay.models.DownloadTest;
-import com.example.ISPStatDisplay.models.IdlePing;
-import com.example.ISPStatDisplay.models.UploadTest;
+import com.example.ISPStatDisplay.models.beans.DownloadTest;
+import com.example.ISPStatDisplay.models.beans.IdlePing;
+import com.example.ISPStatDisplay.models.beans.UploadTest;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;

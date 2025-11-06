@@ -1,9 +1,8 @@
 package com.example.ISPStatDisplay.repositories;
 
-import com.example.ISPStatDisplay.models.MetricPoint;
-import com.example.ISPStatDisplay.models.documents.SpeedtestData;
+import com.example.ISPStatDisplay.models.beans.MetricPoint;
+import com.example.ISPStatDisplay.models.beans.documents.SpeedtestData;
         ;
-import com.example.ISPStatDisplay.models.records.MetricPointDTO;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

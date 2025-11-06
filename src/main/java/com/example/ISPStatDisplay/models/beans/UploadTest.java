@@ -1,21 +1,21 @@
-package com.example.ISPStatDisplay.models;
+package com.example.ISPStatDisplay.models.beans;
 
-public class DownloadTest {
+public class UploadTest {
 
     private Long bandwidth;
     private Long bytes;
     private Float elapsed;
-    private DownloadPing downloadPing;
+    private UploadPing uploadPing;
 
-    public DownloadTest() {}
+    public UploadTest() {
+    }
 
-    public DownloadTest(Long bandwidth, Long bytes, Float elapsed, DownloadPing downloadPing) {
+    public UploadTest(Long bandwidth, Long bytes, Float elapsed, UploadPing uploadPing) {
         this.bandwidth = bandwidth;
         this.bytes = bytes;
         this.elapsed = elapsed;
-        this.downloadPing = downloadPing;
+        this.uploadPing = uploadPing;
     }
-
 
     public Long getBandwidth() {
         return bandwidth;
@@ -41,11 +41,13 @@ public class DownloadTest {
         this.elapsed = elapsed;
     }
 
-    public DownloadPing getDownloadPing() {
-        return downloadPing;
+    public UploadPing getUploadPing() {
+        return uploadPing;
     }
 
-    public void setDownloadPing(DownloadPing downloadPing) {
-        this.downloadPing = downloadPing;
+    public void setUploadPing(UploadPing uploadPing) {
+        this.uploadPing = uploadPing;
     }
 }
+
+

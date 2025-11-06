@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.records;
+package com.example.ISPStatDisplay.models.DTOs;
 
 public record DownloadTestDTO(Long bandwidth,
                               Long bytes,

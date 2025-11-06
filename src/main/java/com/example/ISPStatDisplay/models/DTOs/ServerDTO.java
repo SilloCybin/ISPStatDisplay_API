@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.records;
+package com.example.ISPStatDisplay.models.DTOs;
 
 public record ServerDTO(Long server_id,
                         String hostname,

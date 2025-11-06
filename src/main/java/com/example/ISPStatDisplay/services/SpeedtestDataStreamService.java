@@ -1,7 +1,9 @@
 package com.example.ISPStatDisplay.services;
 
-import com.example.ISPStatDisplay.models.records.ServerDTO;
-import com.example.ISPStatDisplay.models.records.SpeedtestDataDTO;
+import com.example.ISPStatDisplay.models.DTOs.SpeedtestDataDTO;
+import com.example.ISPStatDisplay.models.beans.documents.Server;
+import com.example.ISPStatDisplay.models.beans.documents.SpeedtestData;
+import com.example.ISPStatDisplay.utilities.Utilities;
 import jakarta.annotation.PostConstruct;
 import org.springframework.data.mongodb.core.ChangeStreamEvent;
 import org.springframework.data.mongodb.core.ChangeStreamOptions;
@@ -28,7 +30,7 @@ public class SpeedtestDataStreamService {
     }
 
     public Flux<SpeedtestDataDTO> stream() {
-        return sink.asFlux();
+        return this.sink.asFlux();
     }
 
     @PostConstruct
@@ -40,27 +42,28 @@ public class SpeedtestDataStreamService {
                 .filter(match)
                 .build();
 
-        this.reactiveMongoTemplate.changeStream("speedtestData", options, SpeedtestDataDTO.class)
+        this.reactiveMongoTemplate.changeStream("speedtest_data", options, SpeedtestData.class)
                 .map(ChangeStreamEvent::getBody)
                 .flatMap(this::enrichWithServer)
+                .map(Utilities::speedtestBeanToDTOMapping)
+                .doOnNext(data -> {
+                    System.out.println("Speedtest_data stream : New change detected in DB, publishing: " + data);
+                })
                 .doOnNext(this::publish)
                 .subscribe();
     }
 
-    public Mono<SpeedtestDataDTO> enrichWithServer(SpeedtestDataDTO speedtestDataDTO){
-        if (speedtestDataDTO.server() == null){
-            return Mono.just(speedtestDataDTO);
-        }
+    public Mono<SpeedtestData> enrichWithServer(SpeedtestData speedtestData){
 
-        return reactiveMongoTemplate.findById(speedtestDataDTO.server().server_id(), ServerDTO.class)
-                .map(serverDTO -> new SpeedtestDataDTO(
-                        speedtestDataDTO.timestamp(),
-                        speedtestDataDTO.idlePing(),
-                        speedtestDataDTO.downloadTest(),
-                        speedtestDataDTO.uploadTest(),
-                        speedtestDataDTO.packetLoss(),
-                        speedtestDataDTO.isp(),
-                        serverDTO
-                ));
+        return this.reactiveMongoTemplate.findById(speedtestData.getServer().getServer_id(), Server.class)
+                .map(server -> new SpeedtestData(
+                        speedtestData.getId(),
+                        speedtestData.getTimestamp(),
+                        speedtestData.getIdlePing(),
+                        speedtestData.getDownloadTest(),
+                        speedtestData.getUploadTest(),
+                        speedtestData.getPacketLoss(),
+                        speedtestData.getIsp(),
+                        server));
     }
 }

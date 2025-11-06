@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.records;
+package com.example.ISPStatDisplay.models.DTOs;
 
 import java.time.Instant;
 

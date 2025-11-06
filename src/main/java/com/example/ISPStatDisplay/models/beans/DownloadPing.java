@@ -1,20 +1,20 @@
-package com.example.ISPStatDisplay.models;
+package com.example.ISPStatDisplay.models.beans;
 
-public class IdlePing {
+public class DownloadPing {
 
     private Float jitter;
     private Float latency;
     private Float low;
     private Float high;
 
-    public IdlePing(Float jitter, Float latency, Float low, Float high) {
+    public DownloadPing(Float jitter, Float latency, Float low, Float high) {
         this.jitter = jitter;
         this.latency = latency;
         this.low = low;
         this.high = high;
     }
 
-    public IdlePing() {}
+    public DownloadPing() {}
 
     public Float getJitter() {
         return jitter;

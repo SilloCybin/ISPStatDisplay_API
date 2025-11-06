@@ -2,7 +2,6 @@ package com.example.ISPStatDisplay.controllers;
 
 import com.example.ISPStatDisplay.models.records.MetricPointDTO;
 import com.example.ISPStatDisplay.services.MetricPointService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.*;
-import java.util.Date;
 import java.util.List;
 
 @RestController
