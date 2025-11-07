@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
+import java.util.List;
+
 @Service
 public class AveragesStreamService {
 
@@ -33,7 +35,7 @@ public class AveragesStreamService {
     @PostConstruct
     public void initStream() {
 
-        Document match = new Document("$match", new Document("operationType", "replace"));
+        Document match = new Document("$match", new Document("operationType", new Document("$in", List.of("update", "replace"))));
 
         ChangeStreamOptions options = ChangeStreamOptions.builder()
                 .filter(match)
@@ -58,7 +60,7 @@ public class AveragesStreamService {
                         averages.getIdlePingJitter(),
                         averages.getPacketLoss()))
                 .doOnNext(data -> {
-                    System.out.println("Averages stream : New change detected in DB, publishing: " + data); // <-- log here
+                    System.out.println("Averages stream : New change detected in DB, publishing: " + data);
                 })
                 .doOnNext(this::publish)
                 .subscribe();
