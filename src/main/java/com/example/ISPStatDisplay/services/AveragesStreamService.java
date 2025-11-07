@@ -33,7 +33,7 @@ public class AveragesStreamService {
     @PostConstruct
     public void initStream() {
 
-        Document match = new Document("$match", new Document("operationType", "update"));
+        Document match = new Document("$match", new Document("operationType", "replace"));
 
         ChangeStreamOptions options = ChangeStreamOptions.builder()
                 .filter(match)
