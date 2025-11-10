@@ -88,7 +88,7 @@ public interface SpeedtestDataRepository extends MongoRepository<SpeedtestData, 
     })
     List<MetricPoint> getAllIdlePingJitters();
 
-    @Aggregation(pipeline = {"{ $project: { _id: 0, timestamp: 1, value: 'packetLoss' } }"})
+    @Aggregation(pipeline = {"{ $project: { _id: 0, timestamp: 1, value: '$packetLoss' } }"})
     List<MetricPoint> getAllPacketLosses();
 
         /*
