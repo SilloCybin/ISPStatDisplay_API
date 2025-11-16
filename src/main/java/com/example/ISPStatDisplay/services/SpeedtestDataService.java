@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class SpeedTestStatsService {
+public class SpeedtestDataService {
 
     @Autowired
     private SpeedtestDataJPARepository repo;

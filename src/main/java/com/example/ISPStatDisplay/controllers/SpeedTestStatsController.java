@@ -1,7 +1,7 @@
 package com.example.ISPStatDisplay.controllers;
 
 import com.example.ISPStatDisplay.models.records.SpeedtestDataDTO;
-import com.example.ISPStatDisplay.services.SpeedTestStatsService;
+import com.example.ISPStatDisplay.services.SpeedtestDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 public class SpeedTestStatsController {
 
     @Autowired
-    private final SpeedTestStatsService service = new SpeedTestStatsService();
+    private final SpeedtestDataService service = new SpeedtestDataService();
 
     @GetMapping("/getLatestSpeedtestData")
     public ResponseEntity<SpeedtestDataDTO> getLatestSpeedtestData() {
