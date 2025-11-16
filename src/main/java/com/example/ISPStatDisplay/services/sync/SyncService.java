@@ -3,7 +3,7 @@ package com.example.ISPStatDisplay.services.sync;
 import com.example.ISPStatDisplay.models.entities.MongoDB.*;
 import com.example.ISPStatDisplay.repositories.JPA.AveragesJPARepository;
 import com.example.ISPStatDisplay.repositories.JPA.ServerJPARepository;
-import com.example.ISPStatDisplay.repositories.JPA.SpeedTestStatsJPARepository;
+import com.example.ISPStatDisplay.repositories.JPA.SpeedtestDataJPARepository;
 import com.example.ISPStatDisplay.repositories.MongoDB.AveragesMongoRepository;
 import com.example.ISPStatDisplay.repositories.MongoDB.ServerMongoRepository;
 import com.example.ISPStatDisplay.repositories.MongoDB.SpeedtestDataMongoRepository;
@@ -18,7 +18,7 @@ public class SyncService {
     private final AveragesMongoRepository averagesMongoRepository;
     private final ServerMongoRepository serverMongoRepository;
     private final SpeedtestDataMongoRepository speedtestDataMongoRepository;
-    private final SpeedTestStatsJPARepository speedTestStatsJPARepository;
+    private final SpeedtestDataJPARepository speedtestDataJPARepository;
     private final AveragesJPARepository averagesJPARepository;
     private final ServerJPARepository serverJPARepository;
 
@@ -27,17 +27,17 @@ public class SyncService {
     public SyncService(AveragesMongoRepository averagesMongoRepository,
                        ServerMongoRepository serverMongoRepository,
                        SpeedtestDataMongoRepository speedtestDataMongoRepository,
-                       SpeedTestStatsJPARepository speedTestStatsJPARepository,
+                       SpeedtestDataJPARepository speedtestDataJPARepository,
                        AveragesJPARepository averagesJPARepository,
                        ServerJPARepository serverJPARepository){
 
         this.averagesMongoRepository = averagesMongoRepository;
         this.serverMongoRepository = serverMongoRepository;
         this.speedtestDataMongoRepository = speedtestDataMongoRepository;
-        this.speedTestStatsJPARepository = speedTestStatsJPARepository;
+        this.speedtestDataJPARepository = speedtestDataJPARepository;
         this.averagesJPARepository = averagesJPARepository;
         this.serverJPARepository = serverJPARepository;
-        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId();
+        this.idOfLastSpeedtestDataInserted = Long.valueOf(this.speedtestDataMongoRepository.findTopByOrderByIdDesc().getId());
     }
 
     @Transactional(readOnly = true)
@@ -65,11 +65,11 @@ public class SyncService {
 
     @Transactional(readOnly = true)
     public void syncSpeedtestData() {
-        List<com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData> allSpeedtestData = this.speedTestStatsJPARepository.findAllByIdGreaterThan(this.idOfLastSpeedtestDataInserted);
+        List<com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData> allSpeedtestData = this.speedtestDataJPARepository.findAllByIdGreaterThan(this.idOfLastSpeedtestDataInserted);
         List<SpeedtestData> convertedSpeedtestData = allSpeedtestData.stream().map(this::mapSpeedtestDataToMongo).toList();
         this.speedtestDataMongoRepository.saveAll(convertedSpeedtestData);
         System.out.println("Synced SpeedtestData :" + allSpeedtestData + " with MongoDB!");
-        this.idOfLastSpeedtestDataInserted = this.speedTestStatsJPARepository.findHighestId();
+        this.idOfLastSpeedtestDataInserted = this.speedtestDataJPARepository.findHighestId();
     }
 
     private SpeedtestData mapSpeedtestDataToMongo(com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData speedtestData){

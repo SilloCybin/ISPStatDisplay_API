@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-public interface SpeedTestStatsJPARepository extends JpaRepository<SpeedtestData, Integer> {
+public interface SpeedtestDataJPARepository extends JpaRepository<SpeedtestData, Integer> {
 
     /*
     SpeedtestData queries
@@ -22,7 +22,8 @@ public interface SpeedTestStatsJPARepository extends JpaRepository<SpeedtestData
 
     @Query("SELECT MAX(s.id) FROM SpeedtestData s")
     Long findHighestId();
-;    /*
+
+    /*
     * MetricPoint queries (MetricPoint not an entity, therefore it can't have its own repo)
     */
 
