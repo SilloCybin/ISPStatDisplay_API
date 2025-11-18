@@ -251,7 +251,7 @@ public interface SpeedtestDataRepository extends MongoRepository<SpeedtestData, 
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
-            "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.latency' } }"
+            "{ $project: { _id: 0, timestamp: 1, value: '$idlePing.high' } }"
     })
     List<MetricPoint> getIdlePingHighOnDateRange(Instant startDate, Instant endDate);
 
