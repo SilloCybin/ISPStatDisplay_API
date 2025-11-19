@@ -197,7 +197,7 @@ public interface SpeedtestDataRepository extends MongoRepository<SpeedtestData, 
 
     @Aggregation(pipeline = {
             "{ $match: { timestamp: { $gte: ?0, $lte: ?1 } } }",
-            "{ $project: { _id: 0, timestamp: 1, value: '$UploadTest.bandwidth' } }"
+            "{ $project: { _id: 0, timestamp: 1, value: '$uploadTest.bandwidth' } }"
     })
     List<MetricPoint> getUploadBandwidthOnDateRange(Instant startDate, Instant endDate);
 
