@@ -4,10 +4,11 @@ import com.example.ISPStatDisplay.models.entities.MongoDB.*;
 import com.example.ISPStatDisplay.repositories.JPA.AveragesJPARepository;
 import com.example.ISPStatDisplay.repositories.JPA.ServerJPARepository;
 import com.example.ISPStatDisplay.repositories.JPA.SpeedtestDataJPARepository;
+import com.example.ISPStatDisplay.repositories.JPA.StandardDeviationsJPARepository;
 import com.example.ISPStatDisplay.repositories.MongoDB.AveragesMongoRepository;
 import com.example.ISPStatDisplay.repositories.MongoDB.ServerMongoRepository;
 import com.example.ISPStatDisplay.repositories.MongoDB.SpeedtestDataMongoRepository;
-import org.springframework.transaction.annotation.Transactional;
+import com.example.ISPStatDisplay.repositories.MongoDB.StandardDeviationsMongoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,29 +19,36 @@ public class SyncService {
     private final AveragesMongoRepository averagesMongoRepository;
     private final ServerMongoRepository serverMongoRepository;
     private final SpeedtestDataMongoRepository speedtestDataMongoRepository;
-    private final SpeedtestDataJPARepository speedtestDataJPARepository;
+    private final StandardDeviationsMongoRepository standardDeviationsMongoRepository;
     private final AveragesJPARepository averagesJPARepository;
     private final ServerJPARepository serverJPARepository;
+    private final SpeedtestDataJPARepository speedtestDataJPARepository;
+    private final StandardDeviationsJPARepository standardDeviationsJPARepository;
 
     private Long idOfLastSpeedtestDataInserted;
 
     public SyncService(AveragesMongoRepository averagesMongoRepository,
                        ServerMongoRepository serverMongoRepository,
                        SpeedtestDataMongoRepository speedtestDataMongoRepository,
-                       SpeedtestDataJPARepository speedtestDataJPARepository,
+                       StandardDeviationsMongoRepository standardDeviationsMongoRepository,
                        AveragesJPARepository averagesJPARepository,
-                       ServerJPARepository serverJPARepository){
+                       ServerJPARepository serverJPARepository,
+                       SpeedtestDataJPARepository speedtestDataJPARepository,
+                       StandardDeviationsJPARepository standardDeviationsJPARepository
+                       ){
 
         this.averagesMongoRepository = averagesMongoRepository;
         this.serverMongoRepository = serverMongoRepository;
         this.speedtestDataMongoRepository = speedtestDataMongoRepository;
-        this.speedtestDataJPARepository = speedtestDataJPARepository;
+        this.standardDeviationsMongoRepository = standardDeviationsMongoRepository;
         this.averagesJPARepository = averagesJPARepository;
         this.serverJPARepository = serverJPARepository;
+        this.speedtestDataJPARepository = speedtestDataJPARepository;
+        this.standardDeviationsJPARepository = standardDeviationsJPARepository;
+
         this.idOfLastSpeedtestDataInserted = Long.valueOf(this.speedtestDataMongoRepository.findTopByOrderByIdDesc().getId());
     }
 
-    @Transactional(readOnly = true)
     public void syncServers() {
         /* Reinsert entire list of servers every time : very few servers, new server extremely rare, no need to keep
             last inserted's id to add only last line */
@@ -63,7 +71,6 @@ public class SyncService {
         return serverMongo;
     }
 
-    @Transactional(readOnly = true)
     public void syncSpeedtestData() {
         List<com.example.ISPStatDisplay.models.entities.JPA.SpeedtestData> allSpeedtestData = this.speedtestDataJPARepository.findAllByIdGreaterThan(this.idOfLastSpeedtestDataInserted);
         List<SpeedtestData> convertedSpeedtestData = allSpeedtestData.stream().map(this::mapSpeedtestDataToMongo).toList();
@@ -123,10 +130,10 @@ public class SyncService {
         return downloadTest;
     }
 
-    @Transactional(readOnly = true)
     public void syncAverages() {
         com.example.ISPStatDisplay.models.entities.JPA.Averages averages = this.averagesJPARepository.findById(1)
                 .orElseThrow(() -> new RuntimeException("Averages not found"));
+
         Averages averagesMongo = new Averages();
         averagesMongo.setId(averages.getId());
         averagesMongo.setDownloadBandwidth(averages.getDownloadBandwidth());
@@ -147,6 +154,32 @@ public class SyncService {
 
         this.averagesMongoRepository.save(averagesMongo);
         System.out.println("Synced Averages: "+ averages +" with MongoDB!");
+    }
+
+    public void syncStandardDeviations(){
+        com.example.ISPStatDisplay.models.entities.JPA.StandardDeviations standardDeviations = this.standardDeviationsJPARepository.findById(1)
+                .orElseThrow(() -> new RuntimeException("StandardDeviations not found"));
+
+        StandardDeviations standardDeviationsMongo = new StandardDeviations();
+        standardDeviationsMongo.setId(standardDeviations.getId());
+        standardDeviationsMongo.setDownloadBandwidth(standardDeviations.getDownloadBandwidth());
+        standardDeviationsMongo.setUploadBandwidth(standardDeviations.getUploadBandwidth());
+        standardDeviationsMongo.setDownloadPingLatency(standardDeviations.getDownloadPingLatency());
+        standardDeviationsMongo.setDownloadPingHigh(standardDeviations.getDownloadPingHigh());
+        standardDeviationsMongo.setDownloadPingLow(standardDeviations.getDownloadPingLow());
+        standardDeviationsMongo.setDownloadPingJitter(standardDeviations.getDownloadPingJitter());
+        standardDeviationsMongo.setUploadPingLatency(standardDeviations.getUploadPingLatency());
+        standardDeviationsMongo.setUploadPingHigh(standardDeviations.getUploadPingHigh());
+        standardDeviationsMongo.setUploadPingLow(standardDeviations.getUploadPingLow());
+        standardDeviationsMongo.setUploadPingJitter(standardDeviations.getUploadPingJitter());
+        standardDeviationsMongo.setIdlePingLatency(standardDeviations.getIdlePingLatency());
+        standardDeviationsMongo.setIdlePingHigh(standardDeviations.getIdlePingHigh());
+        standardDeviationsMongo.setIdlePingLow(standardDeviations.getIdlePingLow());
+        standardDeviationsMongo.setIdlePingJitter(standardDeviations.getIdlePingJitter());
+        standardDeviationsMongo.setPacketLoss(standardDeviations.getPacketLoss());
+
+        this.standardDeviationsMongoRepository.save(standardDeviationsMongo);
+        System.out.println("Synced StandardDeviations: "+ standardDeviations +" with MongoDB!");
     }
 
 }
