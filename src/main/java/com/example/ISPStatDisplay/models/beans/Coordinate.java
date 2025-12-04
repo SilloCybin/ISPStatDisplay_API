@@ -2,12 +2,12 @@ package com.example.ISPStatDisplay.models.beans;
 
 import java.time.Instant;
 
-public class MetricPoint {
+public class Coordinate {
 
     private Instant timestamp;
     private Number value;
 
-    public MetricPoint(Instant timestamp, Number value) {
+    public Coordinate(Instant timestamp, Number value) {
         this.timestamp = timestamp;
         this.value = value;
     }

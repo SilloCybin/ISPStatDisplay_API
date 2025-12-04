@@ -1,71 +1,179 @@
 package com.example.ISPStatDisplay.utilities;
 
 import com.example.ISPStatDisplay.models.DTOs.*;
-import com.example.ISPStatDisplay.models.beans.MetricPoint;
+import com.example.ISPStatDisplay.models.beans.Coordinate;
 import com.example.ISPStatDisplay.models.beans.documents.SpeedtestData;
+import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Utilities {
 
-    public static List<MetricPointDTO> truncateBandwidthValue(List<MetricPoint> list) {
-        ArrayList<MetricPointDTO> metricPointDTOList = new ArrayList<>();
-        for (MetricPoint toModify : list) {
+    public static List<CoordinateDTO> truncateBandwidthValue(List<Coordinate> list) {
+        ArrayList<CoordinateDTO> coordinateDTOList = new ArrayList<>();
+        for (Coordinate toModify : list) {
             Float uglyBandwidthValue = toModify.getValue().floatValue();
             Float rounded = (float) Math.round(uglyBandwidthValue * 8 / 1000000 * 100) / 100; // Truncation + B/s to Mb/s conversion
-            MetricPointDTO metricPointDTO = new MetricPointDTO(toModify.getTimestamp(), rounded);
-            metricPointDTOList.add(metricPointDTO);
+            CoordinateDTO coordinateDTO = new CoordinateDTO(toModify.getTimestamp(), rounded);
+            coordinateDTOList.add(coordinateDTO);
         }
-        return metricPointDTOList;
+        return coordinateDTOList;
     }
 
-    public static List<MetricPointDTO> truncateValue(List<MetricPoint> list) {
-        ArrayList<MetricPointDTO> metricPointDTOList = new ArrayList<>();
-        for (MetricPoint toModify : list) {
+    public static List<CoordinateDTO> truncateValue(List<Coordinate> list) {
+        ArrayList<CoordinateDTO> coordinateDTOList = new ArrayList<>();
+        for (Coordinate toModify : list) {
             Float uglyValue = toModify.getValue().floatValue();
             Float rounded = (float) Math.round(uglyValue * 100) / 100;
-            MetricPointDTO metricPointDTO = new MetricPointDTO(toModify.getTimestamp(), rounded);
-            metricPointDTOList.add(metricPointDTO);
+            CoordinateDTO coordinateDTO = new CoordinateDTO(toModify.getTimestamp(), rounded);
+            coordinateDTOList.add(coordinateDTO);
         }
-        return metricPointDTOList;
+        return coordinateDTOList;
     }
 
-    public static SpeedtestDataDTO speedtestBeanToDTOMapping(SpeedtestData s) {
+    public static SpeedtestDataDTO speedtestBeanToDTOMapping(SpeedtestData speedtestData) {
         return new SpeedtestDataDTO(
-                s.getTimestamp(),
+                speedtestData.getTimestamp(),
                 new IdlePingDTO(
-                        s.getIdlePing().getJitter(),
-                        s.getIdlePing().getLatency(),
-                        s.getIdlePing().getLow(),
-                        s.getIdlePing().getHigh()),
+                        speedtestData.getIdlePing().getJitter(),
+                        speedtestData.getIdlePing().getLatency(),
+                        speedtestData.getIdlePing().getLow(),
+                        speedtestData.getIdlePing().getHigh()),
                 new DownloadTestDTO(
-                        s.getDownloadTest().getBandwidth(),
-                        s.getDownloadTest().getBytes(),
-                        s.getDownloadTest().getElapsed(),
+                        speedtestData.getDownloadTest().getBandwidth(),
+                        speedtestData.getDownloadTest().getBytes(),
+                        speedtestData.getDownloadTest().getElapsed(),
                         new DownloadPingDTO(
-                                s.getDownloadTest().getDownloadPing().getJitter(),
-                                s.getDownloadTest().getDownloadPing().getLatency(),
-                                s.getDownloadTest().getDownloadPing().getLow(),
-                                s.getDownloadTest().getDownloadPing().getHigh())),
+                                speedtestData.getDownloadTest().getDownloadPing().getJitter(),
+                                speedtestData.getDownloadTest().getDownloadPing().getLatency(),
+                                speedtestData.getDownloadTest().getDownloadPing().getLow(),
+                                speedtestData.getDownloadTest().getDownloadPing().getHigh())),
                 new UploadTestDTO(
-                        s.getUploadTest().getBandwidth(),
-                        s.getUploadTest().getBytes(),
-                        s.getUploadTest().getElapsed(),
+                        speedtestData.getUploadTest().getBandwidth(),
+                        speedtestData.getUploadTest().getBytes(),
+                        speedtestData.getUploadTest().getElapsed(),
                         new UploadPingDTO(
-                                s.getUploadTest().getUploadPing().getJitter(),
-                                s.getUploadTest().getUploadPing().getLatency(),
-                                s.getUploadTest().getUploadPing().getLow(),
-                                s.getUploadTest().getUploadPing().getHigh())),
-                s.getPacketLoss(),
-                s.getIsp(),
+                                speedtestData.getUploadTest().getUploadPing().getJitter(),
+                                speedtestData.getUploadTest().getUploadPing().getLatency(),
+                                speedtestData.getUploadTest().getUploadPing().getLow(),
+                                speedtestData.getUploadTest().getUploadPing().getHigh())),
+                speedtestData.getPacketLoss(),
+                speedtestData.getIsp(),
                 new ServerDTO(
-                        s.getServer().getServer_id(),
-                        s.getServer().getHostname(),
-                        s.getServer().getPort(),
-                        s.getServer().getProvider(),
-                        s.getServer().getLocation(),
-                        s.getServer().getCountry(),
-                        s.getServer().getIp()));
+                        speedtestData.getServer().getServer_id(),
+                        speedtestData.getServer().getHostname(),
+                        speedtestData.getServer().getPort(),
+                        speedtestData.getServer().getProvider(),
+                        speedtestData.getServer().getLocation(),
+                        speedtestData.getServer().getCountry(),
+                        speedtestData.getServer().getIp()));
     }
+
+    public static List<CoordinateDTO> getTrendline(List<Coordinate> list, String trendline, String metric, Double parameter){
+        List<Coordinate> preTrendlinePoints = new ArrayList<>();
+        List<CoordinateDTO> trendlinePoints;
+
+        if (trendline.equals("polynomialRegression") && parameter != -1D){
+            preTrendlinePoints = computePolyReg(list, parameter);
+        } else if (trendline.equals("exponentialSmoothing") && parameter != -1D){
+            preTrendlinePoints = computeExpSmooth(list, parameter);
+        }
+
+        if (metric.contains("Bandwidth")){
+            trendlinePoints = truncateBandwidthValue(preTrendlinePoints);
+        } else {
+            trendlinePoints = truncateValue(preTrendlinePoints);
+        }
+
+        return trendlinePoints;
+    }
+
+    private static List<Coordinate> computePolyReg(List<Coordinate> list, Double parameter){
+        List<Number> toBeComputed = new ArrayList<>();
+        List<Coordinate> preTrendlinePoints = new ArrayList<>();
+
+        for (Coordinate coordinate: list){
+            toBeComputed.add(coordinate.getValue());
+        }
+
+        Integer N = toBeComputed.size();
+        SimpleMatrix X = new SimpleMatrix(0, 0);
+
+        System.out.println(parameter);
+        System.out.println(parameter.intValue());
+
+        if (parameter.intValue() == 2) {
+            X = new SimpleMatrix(N, 3);
+        } else if (parameter.intValue() == 3){
+            X = new SimpleMatrix(N, 4);
+        }
+
+        SimpleMatrix Y = new SimpleMatrix(N, 1);
+
+        for (int i = 0; i < N; i++){
+            double y = toBeComputed.get(i).doubleValue();
+
+            if (parameter.intValue() == 2) {
+                X.set(i, 0, i * i);
+                X.set(i, 1, i);
+                X.set(i, 2, 1.0);
+            } else if (parameter.intValue() == 3){
+                X.set(i, 0, i * i * i);
+                X.set(i, 1, i * i);
+                X.set(i, 2, i);
+                X.set(i, 3, 1.0);
+            }
+
+            Y.set(i, 0, y);
+        }
+
+        SimpleMatrix Xt = X.transpose();
+        SimpleMatrix XtX = Xt.mult(X);
+        SimpleMatrix XtY = Xt.mult(Y);
+
+        SimpleMatrix coeffs = XtX.solve(XtY);
+
+        double a = 0;
+        double b = 0;
+        double c = 0;
+        double d = 0;
+        double yi = 0;
+
+        if (parameter.intValue() == 2) {
+            a = coeffs.get(0, 0);
+            b = coeffs.get(1, 0);
+            c = coeffs.get(2, 0);
+        } else if (parameter.intValue() == 3){
+            a = coeffs.get(0, 0);
+            b = coeffs.get(1, 0);
+            c = coeffs.get(2, 0);
+            d = coeffs.get(3, 0);
+        }
+
+        for (int i = 0; i < N; i++){
+            if (parameter.intValue() == 2) {
+                yi = a * i * i + b * i + c;
+            } else if (parameter.intValue() == 3){
+                yi = a * i * i * i + b * i * i + c * i + d;
+            }
+            preTrendlinePoints.add(new Coordinate(list.get(i).getTimestamp(), yi));
+        }
+
+        return preTrendlinePoints;
+    }
+
+    private static List<Coordinate> computeExpSmooth(List<Coordinate> list, Double alpha){
+        List<Coordinate> preTrendlinePoints = new ArrayList<>();
+
+        preTrendlinePoints.add(new Coordinate(list.get(0).getTimestamp(), (list.get(0).getValue())));
+
+        for (int i = 1; i < list.size(); i++){
+            double St = alpha * list.get(i).getValue().doubleValue() + (1-alpha) * preTrendlinePoints.get(i-1).getValue().doubleValue();
+            preTrendlinePoints.add(new Coordinate(list.get(i).getTimestamp(), St));
+        }
+
+        return preTrendlinePoints;
+    }
+
 }
