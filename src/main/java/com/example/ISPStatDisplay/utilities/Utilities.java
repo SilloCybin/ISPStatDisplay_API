@@ -74,9 +74,9 @@ public class Utilities {
         List<Coordinate> preTrendlinePoints = new ArrayList<>();
         List<CoordinateDTO> trendlinePoints;
 
-        if (trendline.equals("polynomialRegression") && parameter != -1D){
+        if (trendline.equals("polynomialRegression")){
             preTrendlinePoints = computePolyReg(list, parameter);
-        } else if (trendline.equals("exponentialSmoothing") && parameter != -1D){
+        } else if (trendline.equals("exponentialMovingAverage")){
             preTrendlinePoints = computeExpSmooth(list, parameter);
         }
 
@@ -99,9 +99,6 @@ public class Utilities {
 
         Integer N = toBeComputed.size();
         SimpleMatrix X = new SimpleMatrix(0, 0);
-
-        System.out.println(parameter);
-        System.out.println(parameter.intValue());
 
         if (parameter.intValue() == 2) {
             X = new SimpleMatrix(N, 3);
