@@ -18,6 +18,7 @@ public class StandardDeviationsController {
 
     @GetMapping("/getStandardDeviations")
     public StandardDeviationsDTO getStandardDeviations(){
+        System.out.println("Hit getStandardDeviations endpoint");
         return this.service.getStandardDeviations();
     }
 }

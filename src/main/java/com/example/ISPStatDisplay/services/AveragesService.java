@@ -16,6 +16,7 @@ public class AveragesService {
     }
 
     public AveragesDTO getAverages(){
+        System.out.println("Hey");
         return this.repo.findById(1L).map(a -> new AveragesDTO(
                 a.getDownloadBandwidth(),
                 a.getUploadBandwidth(),

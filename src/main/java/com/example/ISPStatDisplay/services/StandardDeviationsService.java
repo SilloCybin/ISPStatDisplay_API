@@ -16,6 +16,7 @@ public class StandardDeviationsService {
     }
 
     public StandardDeviationsDTO getStandardDeviations(){
+        System.out.println("Ho");
         return this.repo.findById(1L).map(a -> new StandardDeviationsDTO(
                 a.getDownloadBandwidth(),
                 a.getUploadBandwidth(),

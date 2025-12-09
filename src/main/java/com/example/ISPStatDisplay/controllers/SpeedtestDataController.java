@@ -22,6 +22,7 @@ public class SpeedtestDataController {
 
     @GetMapping("/getLatestSpeedtestData")
     public ResponseEntity<SpeedtestDataDTO> getLatestSpeedtestData() {
+        System.out.println("Hit getLatestSpeedtestData endpoint");
         try {
             SpeedtestDataDTO data = this.service.getLatestSpeedTestData();
             return new ResponseEntity<>(data, HttpStatus.OK);

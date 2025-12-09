@@ -17,6 +17,7 @@ public class SpeedtestDataService {
     }
 
     public SpeedtestDataDTO getLatestSpeedTestData() {
+        System.out.println("Ha");
         return this.repo.findTopByOrderByIdDesc().map(Utilities::speedtestBeanToDTOMapping).orElse(null);
     }
 

@@ -18,6 +18,7 @@ public class AveragesController {
 
     @GetMapping("/getAverages")
     public AveragesDTO getAverages(){
+        System.out.println("Hit getAverages endpoint");
         return this.service.getAverages();
     }
 }
