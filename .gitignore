@@ -37,4 +37,6 @@ build/
 src/main/resources/application-prod.properties
 src/main/resources/application.properties
 src/main/resources/application-save.properties
+src/main/resources/ssl/ispstatdisplay-api-dev-keystore.p12
+src/main/resources/ssl/ispstatdisplay-api-prod-keystore.p12
 src/test/*
