@@ -3,22 +3,17 @@ package com.example.ISPStatDisplay.services;
 import com.example.ISPStatDisplay.models.DTOs.SpeedtestDataDTO;
 import com.example.ISPStatDisplay.repositories.SpeedtestDataRepository;
 import com.example.ISPStatDisplay.utilities.Utilities;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SpeedtestDataService {
 
-    @Autowired
-    private SpeedtestDataRepository repo;
-
-    public SpeedtestDataService(SpeedtestDataRepository speedtestDataRepository){
-        this.repo = speedtestDataRepository;
-    }
+    private final SpeedtestDataRepository repo;
 
     public SpeedtestDataDTO getLatestSpeedTestData() {
-        System.out.println("Ha");
-        return this.repo.findTopByOrderByIdDesc().map(Utilities::speedtestBeanToDTOMapping).orElse(null);
+        return this.repo.findTopByOrderByIdDesc().map(Utilities::speedtestEntityToDTOMapping).orElse(null);
     }
 
 }

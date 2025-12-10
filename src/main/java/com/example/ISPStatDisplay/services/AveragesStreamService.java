@@ -3,6 +3,7 @@ package com.example.ISPStatDisplay.services;
 import com.example.ISPStatDisplay.models.beans.documents.Averages;
 import com.example.ISPStatDisplay.models.DTOs.AveragesDTO;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.ChangeStreamEvent;
 import org.springframework.data.mongodb.core.ChangeStreamOptions;

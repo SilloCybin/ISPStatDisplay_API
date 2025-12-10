@@ -2,6 +2,7 @@ package com.example.ISPStatDisplay.controllers;
 
 import com.example.ISPStatDisplay.models.DTOs.SpeedtestDataDTO;
 import com.example.ISPStatDisplay.services.SpeedtestDataStreamService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -12,14 +13,10 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 
 @RestController
+@RequiredArgsConstructor
 public class SpeedtestDataStreamController {
 
-    @Autowired
-    private SpeedtestDataStreamService speedtestDataStreamService;
-
-    public SpeedtestDataStreamController(SpeedtestDataStreamService speedtestDataStreamService) {
-        this.speedtestDataStreamService = speedtestDataStreamService;
-    }
+    private final SpeedtestDataStreamService speedtestDataStreamService;
 
     @GetMapping(value = "/speedtestDataStream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<SpeedtestDataDTO>> streamSpeedtestData() {
@@ -36,5 +33,4 @@ public class SpeedtestDataStreamController {
                                 .build())
         );
     }
-
 }

@@ -3,20 +3,17 @@ package com.example.ISPStatDisplay.services;
 import com.example.ISPStatDisplay.models.DTOs.CoordinateDTO;
 import com.example.ISPStatDisplay.repositories.SpeedtestDataRepository;
 import com.example.ISPStatDisplay.utilities.Utilities;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CoordinatesService {
 
     private final SpeedtestDataRepository repo;
-
-    public CoordinatesService(SpeedtestDataRepository repo){
-        this.repo = repo;
-    }
-
 
     /*
     Metric series handlers

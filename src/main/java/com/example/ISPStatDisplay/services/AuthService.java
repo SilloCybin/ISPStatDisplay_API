@@ -3,10 +3,13 @@ package com.example.ISPStatDisplay.services;
 import com.example.ISPStatDisplay.models.DTOs.AuthRequestDTO;
 import com.example.ISPStatDisplay.models.DTOs.AuthResponseDTO;
 import com.example.ISPStatDisplay.models.beans.documents.User;
+import com.example.ISPStatDisplay.models.exceptions.UsernameAlreadyExistsException;
 import com.example.ISPStatDisplay.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +22,9 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
 
-    public AuthResponseDTO signup(AuthRequestDTO request) {
+    public void signup(AuthRequestDTO request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new RuntimeException("User already exists");
+            throw new UsernameAlreadyExistsException("User already exists");
         }
 
         User user = new User();
@@ -29,12 +32,10 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.password()));
 
         userRepository.save(user);
-
-        String token = jwtService.generateToken(user);
-        return new AuthResponseDTO(token);
     }
 
     public AuthResponseDTO login(AuthRequestDTO request) {
+
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(),
@@ -42,8 +43,10 @@ public class AuthService {
                 )
         );
 
-        User user = userRepository.findByUsername(request.username()).orElseThrow();
+        User user = userRepository.findByUsername(request.username())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         String token = jwtService.generateToken(user);
+
         return new AuthResponseDTO(token);
     }
 }

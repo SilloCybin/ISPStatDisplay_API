@@ -45,7 +45,7 @@ public class SpeedtestDataStreamService {
         this.reactiveMongoTemplate.changeStream("speedtest_data", options, SpeedtestData.class)
                 .map(ChangeStreamEvent::getBody)
                 .flatMap(this::enrichWithServer)
-                .map(Utilities::speedtestBeanToDTOMapping)
+                .map(Utilities::speedtestEntityToDTOMapping)
                 .doOnNext(data -> {
                     System.out.println("Speedtest_data stream : New change detected in DB, publishing: " + data);
                 })

@@ -37,7 +37,6 @@ public class SecurityConfig {
                     config.setAllowedOrigins(List.of("https://localhost:4200", "https://192.168.1.82"));
                     config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
-                    config.setAllowCredentials(true);
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth

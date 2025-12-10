@@ -3,6 +3,9 @@ package com.example.ISPStatDisplay.models.beans.documents;
 import com.example.ISPStatDisplay.models.beans.DownloadTest;
 import com.example.ISPStatDisplay.models.beans.IdlePing;
 import com.example.ISPStatDisplay.models.beans.UploadTest;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,6 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 @Document(collection = "speedtest_data")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class SpeedtestData {
 
     @Id
@@ -30,81 +36,4 @@ public class SpeedtestData {
     @DBRef
     private Server server;
 
-    public SpeedtestData() {}
-
-
-    public SpeedtestData(Long id, Instant timestamp, IdlePing idlePing, DownloadTest downloadTest, UploadTest uploadTest, Float packetLoss, String isp, Server server) {
-        this.id = id;
-        this.timestamp = timestamp;
-        this.idlePing = idlePing;
-        this.downloadTest = downloadTest;
-        this.uploadTest = uploadTest;
-        this.packetLoss = packetLoss;
-        this.isp = isp;
-        this.server = server;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Instant getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public IdlePing getIdlePing() {
-        return idlePing;
-    }
-
-    public void setIdlePing(IdlePing idlePing) {
-        this.idlePing = idlePing;
-    }
-
-    public DownloadTest getDownloadTest() {
-        return downloadTest;
-    }
-
-    public void setDownloadTest(DownloadTest downloadTest) {
-        this.downloadTest = downloadTest;
-    }
-
-    public UploadTest getUploadTest() {
-        return uploadTest;
-    }
-
-    public void setUploadTest(UploadTest uploadTest) {
-        this.uploadTest = uploadTest;
-    }
-
-    public Float getPacketLoss() {
-        return packetLoss;
-    }
-
-    public void setPacketLoss(Float packetLoss) {
-        this.packetLoss = packetLoss;
-    }
-
-    public String getIsp() {
-        return isp;
-    }
-
-    public void setIsp(String isp) {
-        this.isp = isp;
-    }
-
-    public Server getServer() {
-        return server;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
-    }
 }

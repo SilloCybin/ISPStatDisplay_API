@@ -2,21 +2,17 @@ package com.example.ISPStatDisplay.services;
 
 import com.example.ISPStatDisplay.models.DTOs.AveragesDTO;
 import com.example.ISPStatDisplay.repositories.AveragesRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AveragesService {
 
-    @Autowired
-    private AveragesRepository repo;
-
-    public AveragesService(AveragesRepository averagesRepository){
-        this.repo = averagesRepository;
-    }
+    private final AveragesRepository repo;
 
     public AveragesDTO getAverages(){
-        System.out.println("Hey");
         return this.repo.findById(1L).map(a -> new AveragesDTO(
                 a.getDownloadBandwidth(),
                 a.getUploadBandwidth(),

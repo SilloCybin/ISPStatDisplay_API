@@ -11,28 +11,35 @@ import java.util.List;
 public class Utilities {
 
     public static List<CoordinateDTO> truncateBandwidthValue(List<Coordinate> list) {
+
         ArrayList<CoordinateDTO> coordinateDTOList = new ArrayList<>();
+
         for (Coordinate toModify : list) {
             Float uglyBandwidthValue = toModify.getValue().floatValue();
             Float rounded = (float) Math.round(uglyBandwidthValue * 8 / 1000000 * 100) / 100; // Truncation + B/s to Mb/s conversion
             CoordinateDTO coordinateDTO = new CoordinateDTO(toModify.getTimestamp(), rounded);
             coordinateDTOList.add(coordinateDTO);
         }
+
         return coordinateDTOList;
     }
 
     public static List<CoordinateDTO> truncateValue(List<Coordinate> list) {
+
         ArrayList<CoordinateDTO> coordinateDTOList = new ArrayList<>();
+
         for (Coordinate toModify : list) {
             Float uglyValue = toModify.getValue().floatValue();
             Float rounded = (float) Math.round(uglyValue * 100) / 100;
             CoordinateDTO coordinateDTO = new CoordinateDTO(toModify.getTimestamp(), rounded);
             coordinateDTOList.add(coordinateDTO);
         }
+
         return coordinateDTOList;
     }
 
-    public static SpeedtestDataDTO speedtestBeanToDTOMapping(SpeedtestData speedtestData) {
+    public static SpeedtestDataDTO speedtestEntityToDTOMapping(SpeedtestData speedtestData) {
+
         return new SpeedtestDataDTO(
                 speedtestData.getTimestamp(),
                 new IdlePingDTO(
@@ -71,13 +78,14 @@ public class Utilities {
     }
 
     public static List<CoordinateDTO> getTrendline(List<Coordinate> list, String trendline, String metric, Double parameter){
+
         List<Coordinate> preTrendlinePoints = new ArrayList<>();
         List<CoordinateDTO> trendlinePoints;
 
         if (trendline.equals("polynomialRegression")){
             preTrendlinePoints = computePolyReg(list, parameter);
         } else if (trendline.equals("exponentialMovingAverage")){
-            preTrendlinePoints = computeExpSmooth(list, parameter);
+            preTrendlinePoints = computeExpMovAvg(list, parameter);
         }
 
         if (metric.contains("Bandwidth")){
@@ -90,6 +98,7 @@ public class Utilities {
     }
 
     private static List<Coordinate> computePolyReg(List<Coordinate> list, Double parameter){
+
         List<Number> toBeComputed = new ArrayList<>();
         List<Coordinate> preTrendlinePoints = new ArrayList<>();
 
@@ -160,7 +169,8 @@ public class Utilities {
         return preTrendlinePoints;
     }
 
-    private static List<Coordinate> computeExpSmooth(List<Coordinate> list, Double alpha){
+    private static List<Coordinate> computeExpMovAvg(List<Coordinate> list, Double alpha){
+
         List<Coordinate> preTrendlinePoints = new ArrayList<>();
 
         preTrendlinePoints.add(new Coordinate(list.get(0).getTimestamp(), (list.get(0).getValue())));

@@ -3,6 +3,7 @@ package com.example.ISPStatDisplay.controllers;
 import com.example.ISPStatDisplay.models.DTOs.AveragesDTO;
 import com.example.ISPStatDisplay.models.DTOs.StandardDeviationsDTO;
 import com.example.ISPStatDisplay.services.StandardDeviationsStreamService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -13,14 +14,10 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 
 @RestController
+@RequiredArgsConstructor
 public class StandardDeviationsStreamController {
 
-    @Autowired
-    private StandardDeviationsStreamService standardDeviationsStreamService;
-
-    public StandardDeviationsStreamController(StandardDeviationsStreamService standardDeviationsStreamService) {
-        this.standardDeviationsStreamService = standardDeviationsStreamService;
-    }
+    private final StandardDeviationsStreamService standardDeviationsStreamService;
 
     @GetMapping(value = "/standardDeviationsStream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<StandardDeviationsDTO>> streamStandardDeviations() {

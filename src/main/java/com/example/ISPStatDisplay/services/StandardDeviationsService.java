@@ -2,21 +2,17 @@ package com.example.ISPStatDisplay.services;
 
 import com.example.ISPStatDisplay.models.DTOs.StandardDeviationsDTO;
 import com.example.ISPStatDisplay.repositories.StandardDeviationsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class StandardDeviationsService {
 
-    @Autowired
-    private StandardDeviationsRepository repo;
-
-    public StandardDeviationsService (StandardDeviationsRepository standardDeviationsRepository){
-        this.repo = standardDeviationsRepository;
-    }
+    private final StandardDeviationsRepository repo;
 
     public StandardDeviationsDTO getStandardDeviations(){
-        System.out.println("Ho");
         return this.repo.findById(1L).map(a -> new StandardDeviationsDTO(
                 a.getDownloadBandwidth(),
                 a.getUploadBandwidth(),

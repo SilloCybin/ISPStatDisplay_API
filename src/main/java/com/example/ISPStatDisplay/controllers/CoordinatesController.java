@@ -2,6 +2,7 @@ package com.example.ISPStatDisplay.controllers;
 
 import com.example.ISPStatDisplay.models.DTOs.CoordinateDTO;
 import com.example.ISPStatDisplay.services.CoordinatesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,10 @@ import java.time.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class CoordinatesController {
 
     private final CoordinatesService metricPointservice;
-
-    public CoordinatesController(CoordinatesService metricPointservice){
-        this.metricPointservice = metricPointservice;
-    }
 
     @GetMapping("/getSeries")
     public ResponseEntity<List<CoordinateDTO>> getSeries(
