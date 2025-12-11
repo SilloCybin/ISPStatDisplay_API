@@ -2,7 +2,7 @@ package com.example.ISPStatDisplay.controllers;
 
 import com.example.ISPStatDisplay.models.DTOs.AuthRequestDTO;
 import com.example.ISPStatDisplay.models.DTOs.AuthResponseDTO;
-import com.example.ISPStatDisplay.models.exceptions.UsernameAlreadyExistsException;
+import com.example.ISPStatDisplay.exceptions.UsernameAlreadyExistsException;
 import com.example.ISPStatDisplay.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

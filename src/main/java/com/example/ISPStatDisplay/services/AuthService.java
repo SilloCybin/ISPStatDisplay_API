@@ -3,7 +3,7 @@ package com.example.ISPStatDisplay.services;
 import com.example.ISPStatDisplay.models.DTOs.AuthRequestDTO;
 import com.example.ISPStatDisplay.models.DTOs.AuthResponseDTO;
 import com.example.ISPStatDisplay.models.beans.documents.User;
-import com.example.ISPStatDisplay.models.exceptions.UsernameAlreadyExistsException;
+import com.example.ISPStatDisplay.exceptions.UsernameAlreadyExistsException;
 import com.example.ISPStatDisplay.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
