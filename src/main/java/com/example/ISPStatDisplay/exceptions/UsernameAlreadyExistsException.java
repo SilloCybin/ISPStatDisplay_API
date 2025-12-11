@@ -1,4 +1,4 @@
-package com.example.ISPStatDisplay.models.exceptions;
+package com.example.ISPStatDisplay.exceptions;
 
 public class UsernameAlreadyExistsException extends RuntimeException {
     public UsernameAlreadyExistsException(String username) {
