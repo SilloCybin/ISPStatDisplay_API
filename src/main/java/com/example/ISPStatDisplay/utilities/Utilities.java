@@ -5,18 +5,19 @@ import com.example.ISPStatDisplay.models.beans.Coordinate;
 import com.example.ISPStatDisplay.models.beans.documents.SpeedtestData;
 import org.ejml.simple.SimpleMatrix;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.*;
 
 public class Utilities {
 
-    public static List<CoordinateDTO> truncateBandwidthValue(List<Coordinate> list) {
+    public static List<CoordinateDTO> truncateBandwidthValuesFromCoordinateList(List<Coordinate> list) {
 
         ArrayList<CoordinateDTO> coordinateDTOList = new ArrayList<>();
 
         for (Coordinate toModify : list) {
             Float uglyBandwidthValue = toModify.getValue().floatValue();
-            Float rounded = (float) Math.round(uglyBandwidthValue * 8 / 1000000 * 100) / 100; // Truncation + B/s to Mb/s conversion
+            Float rounded = truncateBandwidthValue(uglyBandwidthValue);
             CoordinateDTO coordinateDTO = new CoordinateDTO(toModify.getTimestamp(), rounded);
             coordinateDTOList.add(coordinateDTO);
         }
@@ -24,19 +25,29 @@ public class Utilities {
         return coordinateDTOList;
     }
 
-    public static List<CoordinateDTO> truncateValue(List<Coordinate> list) {
+    private static Float truncateBandwidthValue(Float uglyBandwidthValue) {
+        return (float) Math.round(uglyBandwidthValue * 8 / 1000000 * 100) / 100;
+    }
+
+
+    public static List<CoordinateDTO> truncateValuesFromCoordinateList(List<Coordinate> list) {
 
         ArrayList<CoordinateDTO> coordinateDTOList = new ArrayList<>();
 
         for (Coordinate toModify : list) {
             Float uglyValue = toModify.getValue().floatValue();
-            Float rounded = (float) Math.round(uglyValue * 100) / 100;
+            Float rounded = truncateValue(uglyValue);
             CoordinateDTO coordinateDTO = new CoordinateDTO(toModify.getTimestamp(), rounded);
             coordinateDTOList.add(coordinateDTO);
         }
 
         return coordinateDTOList;
     }
+
+    public static Float truncateValue(Float uglyValue){
+        return (float) Math.round(uglyValue * 100) / 100;
+    }
+
 
     public static SpeedtestDataDTO speedtestEntityToDTOMapping(SpeedtestData speedtestData) {
 
@@ -77,6 +88,67 @@ public class Utilities {
                         speedtestData.getServer().getIp()));
     }
 
+
+    public static List<TimeslotAveragesDTO> seriesToTimeslotAverages(List<CoordinateDTO> series, String metric) {
+
+        Map<Integer, Map<Integer, List<Double>>> timeslotAndValuesMap = new TreeMap<>();
+        Map<Integer, Map<Integer, Float>> timeslotAndAverageMap = new TreeMap<>();
+        List<TimeslotAveragesDTO> timeslotAveragesDTOList = new ArrayList<>();
+        List<Float> averageContainer;
+        double average;
+        float truncatedAverage;
+
+        for (CoordinateDTO coordinate : series) {
+            int hourOfTheDay = coordinate.timestamp().atZone(ZoneId.systemDefault()).getHour();
+            int dayOfTheWeek = coordinate.timestamp().atZone(ZoneId.systemDefault()).getDayOfWeek().getValue();
+            double value = coordinate.value().doubleValue();
+
+            timeslotAndValuesMap
+                    .computeIfAbsent(hourOfTheDay, dotw -> new TreeMap<>())
+                    .computeIfAbsent(dayOfTheWeek, hotd -> new ArrayList<>())
+                    .add(value);
+        }
+
+        for (var hourOfTheDayValuesEntry : timeslotAndValuesMap.entrySet()) {
+            int hourOfTheDayAverage = hourOfTheDayValuesEntry.getKey();
+            timeslotAndAverageMap.putIfAbsent(hourOfTheDayAverage, new TreeMap<>());
+
+            for (var dayOfTheWeekValuesEntry : hourOfTheDayValuesEntry.getValue().entrySet()) {
+                int dayOfTheWeekAverage = dayOfTheWeekValuesEntry.getKey();
+                List<Double> values = dayOfTheWeekValuesEntry.getValue();
+
+                average = values.stream().mapToDouble(v -> v).average().orElse(Double.NaN);
+                truncatedAverage = Utilities.truncateValue((float) average);
+
+                timeslotAndAverageMap.get(hourOfTheDayAverage).putIfAbsent(dayOfTheWeekAverage, truncatedAverage);
+            }
+        }
+
+        for (var hourOfTheDayAveragesEntry : timeslotAndAverageMap.entrySet()) {
+            String hour = LocalTime.of(hourOfTheDayAveragesEntry.getKey(), 0).toString();
+            averageContainer = new ArrayList<>();
+
+            for (var dayOfTheWeekAveragesEntry : hourOfTheDayAveragesEntry.getValue().entrySet()) {
+                averageContainer.add(dayOfTheWeekAveragesEntry.getValue());
+            }
+
+            timeslotAveragesDTOList.add(
+                    new TimeslotAveragesDTO(
+                            hour,
+                            averageContainer.get(0),
+                            averageContainer.get(1),
+                            averageContainer.get(2),
+                            averageContainer.get(3),
+                            averageContainer.get(4),
+                            averageContainer.get(5),
+                            averageContainer.get(6))
+            );
+        }
+
+        return timeslotAveragesDTOList;
+    }
+
+
     public static List<CoordinateDTO> getTrendline(List<Coordinate> list, String trendline, String metric, Double parameter){
 
         List<Coordinate> preTrendlinePoints = new ArrayList<>();
@@ -89,13 +161,14 @@ public class Utilities {
         }
 
         if (metric.contains("Bandwidth")){
-            trendlinePoints = truncateBandwidthValue(preTrendlinePoints);
+            trendlinePoints = truncateBandwidthValuesFromCoordinateList(preTrendlinePoints);
         } else {
-            trendlinePoints = truncateValue(preTrendlinePoints);
+            trendlinePoints = truncateValuesFromCoordinateList(preTrendlinePoints);
         }
 
         return trendlinePoints;
     }
+
 
     private static List<Coordinate> computePolyReg(List<Coordinate> list, Double parameter){
 
@@ -169,6 +242,7 @@ public class Utilities {
         return preTrendlinePoints;
     }
 
+
     private static List<Coordinate> computeExpMovAvg(List<Coordinate> list, Double alpha){
 
         List<Coordinate> preTrendlinePoints = new ArrayList<>();
@@ -182,5 +256,4 @@ public class Utilities {
 
         return preTrendlinePoints;
     }
-
 }

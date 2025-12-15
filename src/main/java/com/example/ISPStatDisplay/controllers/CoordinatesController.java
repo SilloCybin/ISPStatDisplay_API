@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CoordinatesController {
 
-    private final CoordinatesService metricPointservice;
+    private final CoordinatesService coordinatesService;
 
     @GetMapping("/getSeries")
     public ResponseEntity<List<CoordinateDTO>> getSeries(
@@ -32,22 +32,22 @@ public class CoordinatesController {
         if (startDate != null){
             if (endDate != null){
                 if (trendline != null){
-                    data = this.metricPointservice.getTrendlineOnDateRange(metric, trendline, startDate, endDate, parameter);
+                    data = this.coordinatesService.getTrendlineOnDateRange(metric, trendline, startDate, endDate, parameter);
                 } else {
-                    data = this.metricPointservice.getMetricOnDateRange(metric, startDate, endDate);
+                    data = this.coordinatesService.getMetricOnDateRange(metric, startDate, endDate);
                 }
             } else {
                 if (trendline != null){
-                    data = this.metricPointservice.getTrendlineFromStartDateToNow(metric, trendline, startDate, parameter);
+                    data = this.coordinatesService.getTrendlineFromStartDateToNow(metric, trendline, startDate, parameter);
                 } else {
-                    data = this.metricPointservice.getMetricFromStartDateToNow(metric, startDate);
+                    data = this.coordinatesService.getMetricFromStartDateToNow(metric, startDate);
                 }
             }
         } else {
             if (trendline != null){
-                data = this.metricPointservice.getEntireTrendline(metric, trendline, parameter);
+                data = this.coordinatesService.getEntireTrendline(metric, trendline, parameter);
             } else {
-                data = this.metricPointservice.getAll(metric);
+                data = this.coordinatesService.getAll(metric);
             }
         }
 
