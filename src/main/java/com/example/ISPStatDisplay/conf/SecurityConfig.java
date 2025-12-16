@@ -34,14 +34,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("https://localhost:4200", "null"));
+                    config.setAllowedOrigins(List.of("https://localhost:4200"));
                     config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/auth/login", "/auth/signup", "/getTimeslotAverages").permitAll()
+                        .requestMatchers("/auth/login", "/auth/signup").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authProvider)

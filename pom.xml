@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>ISPStatDisplay_MongoDB</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<name>ISPStatDisplay_MongoDB</name>
 	<description>ISP performance data visualizer</description>
 
